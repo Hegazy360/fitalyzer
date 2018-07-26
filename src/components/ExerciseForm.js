@@ -1,5 +1,4 @@
 import React, {Component} from 'react'
-import Search from './Search'
 import axios from 'axios'
 
 class ExerciseForm extends Component {
@@ -11,6 +10,7 @@ class ExerciseForm extends Component {
     }
   }
   handleInput = (e) => {
+    this.props.resetNotification()
     this.setState({
       [e.target.name]: e.target.value
     })
@@ -22,13 +22,14 @@ class ExerciseForm extends Component {
     }
     axios.put(`http://localhost:3001/api/v1/exercises/${this.props.exercise.id}`, {exercise: exercise}).then(response => {
       console.log(response)
+      this.props.updateExercise(response.data)
     }).catch(error => console.log(error))
   }
   render() {
     return (<div className="tile">
       <form onBlur={this.handleBlur}>
-        <Search className='input' name="name" placeholder='Search exercise' value={this.state.title} onChange={this.handleInput} />
-        <textarea className='input' name="weight" placeholder='Weight lifted' value={this.state.body} onChange={this.handleInput}></textarea>
+        <input className='input' name="name" placeholder='Exercise Name' value={this.state.title} onChange={this.handleInput} ref={this.props.titleRef}/>
+        <textarea className='input' name="weight" placeholder='Weight lifted' value={this.state.body} onChange={this.handleInput} ></textarea>
       </form>
     </div>);
   }

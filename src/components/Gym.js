@@ -32,6 +32,17 @@ class Gym extends Component {
       this.setState({exercises: exercises, editingExerciseId: response.data.id})
     }).catch(error => console.log(error))
   }
+
+  deleteExercise = (id) => {
+    axios.delete(`http://localhost:3001/api/v1/exercises/${id}`)
+    .then(response => {
+      const exerciseIndex = this.state.exercises.findIndex(x => x.id === id)
+      const exercises = update(this.state.exercises, { $splice: [[exerciseIndex, 1]]})
+      this.setState({exercises: exercises})
+    })
+    .catch(error => console.log(error))
+  }
+
   updateExercise = (exercise) => {
     const exerciseIndex = this.state.exercises.findIndex(x => x.id === exercise.id)
     const exercises = update(this.state.exercises, {
@@ -40,6 +51,13 @@ class Gym extends Component {
       }
     })
     this.setState({exercises: exercises, notification: 'All changes saved'})
+  }
+  resetNotification = () => {
+    this.setState({notification: ''})
+  }
+  enableEditing = (id) => {
+    this.setState({editingExerciseId: id},
+      () => { this.title.focus() })
   }
   componentDidMount() {
     axios.get('http://localhost:3001/api/v1/gyms/1/exercises').then(response => {
@@ -52,9 +70,9 @@ class Gym extends Component {
       {
         this.state.exercises.map((exercise) => {
           if (this.state.editingExerciseId === exercise.id) {
-            return (<ExerciseForm exercise={exercise} key={exercise.id} updateIdea={this.updateIdea}/>)
+            return (<ExerciseForm exercise={exercise} key={exercise.id} updateExercise={this.updateExercise} resetNotification={this.resetNotification} titleRef= {input => this.title = input}/>)
           } else {
-            return (<Exercise exercise={exercise} key={exercise.id}/>)
+            return (<Exercise exercise={exercise} key={exercise.id} onClick={this.enableEditing} onDelete={this.deleteExercise}/>)
           }
         })
       }
