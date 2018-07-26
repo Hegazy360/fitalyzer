@@ -2,8 +2,11 @@ import React, {Component} from 'react'
 import axios from 'axios'
 import Exercise from './Exercise'
 import ExerciseForm from './ExerciseForm'
+import ExercisesTable from './ExercisesTable';
+import Button from '@material-ui/core/Button';
+import AddIcon from '@material-ui/icons/Add';
+import { Transition } from 'react-spring'
 import update from 'immutability-helper'
-
 class Gym extends Component {
   constructor(props) {
     super(props);
@@ -32,7 +35,6 @@ class Gym extends Component {
       this.setState({exercises: exercises, editingExerciseId: response.data.id})
     }).catch(error => console.log(error))
   }
-
   deleteExercise = (id) => {
     axios.delete(`http://localhost:3001/api/v1/exercises/${id}`)
     .then(response => {
@@ -42,7 +44,6 @@ class Gym extends Component {
     })
     .catch(error => console.log(error))
   }
-
   updateExercise = (exercise) => {
     const exerciseIndex = this.state.exercises.findIndex(x => x.id === exercise.id)
     const exercises = update(this.state.exercises, {
@@ -67,23 +68,16 @@ class Gym extends Component {
   }
   render() {
     return (<div>
-      {
-        this.state.exercises.map((exercise) => {
-          if (this.state.editingExerciseId === exercise.id) {
-            return (<ExerciseForm exercise={exercise} key={exercise.id} updateExercise={this.updateExercise} resetNotification={this.resetNotification} titleRef= {input => this.title = input}/>)
-          } else {
-            return (<Exercise exercise={exercise} key={exercise.id} onClick={this.enableEditing} onDelete={this.deleteExercise}/>)
-          }
-        })
-      }
-      <button className="newExerciseButton" onClick={this.addNewExercise}>
+      <ExercisesTable exercises = {this.state.exercises} />
+      <Button variant="extendedFab" color= "primary" aria-label="Add" className="newExerciseButton" onClick={this.addNewExercise}>
+        <AddIcon />
         Add Exercise
-      </button>
+      </Button>
+      {this.state.editingExerciseId && <ExerciseForm exercise={this.state.exercises[this.state.exercises.findIndex(x => x.id === this.state.editingExerciseId)]} key={this.state.editingExerciseId} updateExercise={this.updateExercise} resetNotification={this.resetNotification} titleRef= {input => this.title = input}/>}
       <span className="notification">
         {this.state.notification}
       </span>
     </div>);
   }
 }
-
 export default Gym
