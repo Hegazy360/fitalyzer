@@ -31,6 +31,8 @@ function SimpleTable(props) {
           <TableRow>
             <TableCell>Exercise name</TableCell>
             <TableCell numeric>Weight</TableCell>
+            <TableCell numeric>Sets</TableCell>
+            <TableCell numeric>Reps</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -39,6 +41,8 @@ function SimpleTable(props) {
               <TableRow key={exercise.id}>
                 <TableCell>{exercise.name}</TableCell>
                 <TableCell numeric>{exercise.weight}</TableCell>
+                <TableCell numeric>{exercise.sets}</TableCell>
+                <TableCell numeric>{exercise.reps}</TableCell>
               </TableRow>
             );
           })}

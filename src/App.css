@@ -21,3 +21,7 @@ textarea {
   height: 90px;
   font-size: 11px;
 }
+
+.big_title {
+  text-align: center;
+}

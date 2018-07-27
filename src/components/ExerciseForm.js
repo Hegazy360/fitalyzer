@@ -1,5 +1,15 @@
 import React, {Component} from 'react'
 import axios from 'axios'
+import TextField from '@material-ui/core/TextField';
+
+const styles = theme => ({
+
+  textField: {
+    marginLeft: theme.spacing.unit,
+    marginRight: theme.spacing.unit,
+    width: 200,
+  }
+});
 
 class ExerciseForm extends Component {
   constructor(props) {
@@ -28,8 +38,27 @@ class ExerciseForm extends Component {
   render() {
     return (<div className="tile">
       <form onBlur={this.handleBlur}>
-        <input className='input' name="name" placeholder='Exercise Name' value={this.state.title} onChange={this.handleInput} ref={this.props.titleRef}/>
-        <textarea className='input' name="weight" placeholder='Weight lifted' value={this.state.body} onChange={this.handleInput} ></textarea>
+        <TextField
+          id="name"
+          label="Name"
+          className={this.props.textField}
+          value={this.state.name}
+          onChange={this.handleInput}
+          margin="normal"
+          label='Exercise Name'
+          name="name"
+          ref={this.props.titleRef}
+        />
+        <TextField
+          id="weight"
+          label="weight"
+          className={this.props.textField}
+          value={this.state.weight}
+          onChange={this.handleInput}
+          margin="normal"
+          label='Weight lifted'
+          name="weight"
+        />
       </form>
     </div>);
   }
