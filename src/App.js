@@ -8,7 +8,7 @@ class App extends Component {
   render() {
     return (<div className="App">
       <div className="App-header">
-        <Typography variant="display4" gutterBottom="gutterBottom" className="big_title">
+        <Typography variant="display4" gutterBottom className="big_title">
           Fitalyzer
         </Typography>
       </div>
