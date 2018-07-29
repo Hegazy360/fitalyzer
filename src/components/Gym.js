@@ -1,38 +1,34 @@
 import React, {Component} from 'react'
 import axios from 'axios'
-import Exercise from './Exercise'
 import ExerciseForm from './ExerciseForm'
+import ExerciseChart from './ExerciseChart'
 import ExercisesTable from './ExercisesTable';
 import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
-import { Transition } from 'react-spring'
+import groupBy from 'lodash/groupBy'
+import sortBy from 'lodash/sortBy'
+import orderBy from 'lodash/orderBy'
+import moment from 'moment'
 import update from 'immutability-helper'
+
 class Gym extends Component {
   constructor(props) {
     super(props);
     this.state = {
       exercises: [],
       editingExerciseId: null,
-      notification: ''
+      notification: '',
+      fadeInAnimation: false
     };
   }
-  addNewExercise = () => {
-    axios.post('http://localhost:3001/api/v1/gyms/1/exercises', {
-      exercise: {
-        name: '',
-        exercise_id: null,
-        weight: null,
-        sets: null,
-        reps: null
-      }
-    }).then(response => {
-      console.log(response.data)
+  addNewExercise = (exercise) => {
+    axios.post('http://localhost:3001/api/v1/gyms/1/exercises', {exercise: exercise}).then(response => {
       const exercises = update(this.state.exercises, {
         $splice: [
           [this.state.exercises.length, this.state.exercises.length, response.data]
         ]
       })
-      this.setState({exercises: exercises, editingExerciseId: response.data.id})
+      this.setState({exercises: exercises, editingExerciseId: null, fadeInAnimation: true})
     }).catch(error => console.log(error))
   }
   deleteExercise = (id) => {
@@ -60,23 +56,33 @@ class Gym extends Component {
     this.setState({editingExerciseId: id},
       () => { this.title.focus() })
   }
+  toggleForm = () => {
+    this.setState({editingExerciseId: 1})
+  }
+  filterExercisesBy = (value) => {
+    console.log(value)
+    console.log(groupBy(this.state.exercises, value))
+    return groupBy(this.state.exercises, value)
+  }
   componentDidMount() {
     axios.get('http://localhost:3001/api/v1/gyms/1/exercises').then(response => {
-      console.log(response)
       this.setState({exercises: response.data})
     }).catch(error => console.log(error))
   }
   render() {
     return (<div>
-      <ExercisesTable exercises = {this.state.exercises} />
-      <Button variant="extendedFab" color= "primary" aria-label="Add" className="newExerciseButton" onClick={this.addNewExercise}>
+      <ExercisesTable exercises = {this.state.exercises} fadeInAnimation = {this.state.fadeInAnimation} deleteExercise = {this.deleteExercise}/>
+      <Button variant="extendedFab" color= "primary" aria-label="Add" className="newExerciseButton" onClick={this.toggleForm}>
         <AddIcon />
         Add Exercise
       </Button>
-      {this.state.editingExerciseId && <ExerciseForm exercise={this.state.exercises[this.state.exercises.findIndex(x => x.id === this.state.editingExerciseId)]} key={this.state.editingExerciseId} updateExercise={this.updateExercise} resetNotification={this.resetNotification} titleRef= {input => this.title = input}/>}
+      {this.state.editingExerciseId && <ExerciseForm addNewExercise={this.addNewExercise} resetNotification={this.resetNotification}/>}
       <span className="notification">
         {this.state.notification}
       </span>
+      {console.log(groupBy(this.state.exercises, "exercise_id"))}
+      {console.log(groupBy(this.state.exercises, (result) => moment(result.created_at).startOf('isoWeek')))};
+      <ExerciseChart />
     </div>);
   }
 }

@@ -7,6 +7,9 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import Fade from '@material-ui/core/Fade';
+import Button from '@material-ui/core/Button';
+import DeleteForeverOutlinedIcon from '@material-ui/icons/DeleteForeverOutlined';
 
 const styles = theme => ({
   root: {
@@ -17,7 +20,7 @@ const styles = theme => ({
     overflowX: 'auto',
   },
   table: {
-    minWidth: 700
+    minWidth: 545
   },
 });
 
@@ -30,9 +33,10 @@ function SimpleTable(props) {
         <TableHead>
           <TableRow>
             <TableCell>Exercise name</TableCell>
-            <TableCell numeric>Weight</TableCell>
-            <TableCell numeric>Sets</TableCell>
-            <TableCell numeric>Reps</TableCell>
+            <TableCell>Weight</TableCell>
+            <TableCell>Sets</TableCell>
+            <TableCell>Reps</TableCell>
+            <TableCell>Delete</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -40,9 +44,14 @@ function SimpleTable(props) {
             return (
               <TableRow key={exercise.id}>
                 <TableCell>{exercise.name}</TableCell>
-                <TableCell numeric>{exercise.weight}</TableCell>
-                <TableCell numeric>{exercise.sets}</TableCell>
-                <TableCell numeric>{exercise.reps}</TableCell>
+                <TableCell>{exercise.weight}</TableCell>
+                <TableCell>{exercise.sets}</TableCell>
+                <TableCell>{exercise.reps}</TableCell>
+                <TableCell>
+                  <Button>
+                    <DeleteForeverOutlinedIcon className={props.icon} color="action" onClick={() => { props.deleteExercise(exercise.id) }} />
+                  </Button>
+                </TableCell>
               </TableRow>
             );
           })}
