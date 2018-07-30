@@ -59,10 +59,12 @@ class Gym extends Component {
   toggleForm = () => {
     this.setState({editingExerciseId: 1})
   }
-  filterExercisesBy = (value) => {
-    console.log(value)
+  filterExercisesBy = (exercisesArray, value) => {
     console.log(groupBy(this.state.exercises, value))
-    return groupBy(this.state.exercises, value)
+    return groupBy(exercisesArray, value)
+  }
+  filterExercisesByDate = () => {
+    return groupBy(this.state.exercises, (result) => moment(result.created_at).startOf('isoWeek'));
   }
   componentDidMount() {
     axios.get('http://localhost:3001/api/v1/gyms/1/exercises').then(response => {
@@ -70,8 +72,16 @@ class Gym extends Component {
     }).catch(error => console.log(error))
   }
   render() {
+    const exercisesDates = Object.keys(this.filterExercisesByDate())
+    console.log(exercisesDates[0])
+    const exercisesByDate = this.filterExercisesByDate()
+    console.log(this.filterExercisesBy(exercisesByDate[exercisesDates[0]], "exercise_id"));
     return (<div>
-      <ExercisesTable exercises = {this.state.exercises} fadeInAnimation = {this.state.fadeInAnimation} deleteExercise = {this.deleteExercise}/>
+      {exercisesDates.map((key, index) => {
+        return (
+          <ExercisesTable key = {index} exercises = {exercisesByDate[key]} date = {moment(key).format("MMMM Do YYYY")} fadeInAnimation = {this.state.fadeInAnimation} deleteExercise = {this.deleteExercise}/>
+        );
+      })}
       <Button variant="extendedFab" color= "primary" aria-label="Add" className="newExerciseButton" onClick={this.toggleForm}>
         <AddIcon />
         Add Exercise
@@ -80,8 +90,8 @@ class Gym extends Component {
       <span className="notification">
         {this.state.notification}
       </span>
-      {console.log(groupBy(this.state.exercises, "exercise_id"))}
-      {console.log(groupBy(this.state.exercises, (result) => moment(result.created_at).startOf('isoWeek')))};
+      {console.log()}
+      {console.log(exercisesByDate)}
       <ExerciseChart />
     </div>);
   }

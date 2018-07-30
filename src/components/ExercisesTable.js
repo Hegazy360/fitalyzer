@@ -9,6 +9,8 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Fade from '@material-ui/core/Fade';
 import Button from '@material-ui/core/Button';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
 import DeleteForeverOutlinedIcon from '@material-ui/icons/DeleteForeverOutlined';
 
 const styles = theme => ({
@@ -29,6 +31,13 @@ function SimpleTable(props) {
 
   return (
     <Paper className={classes.root}>
+      <Toolbar className={classes.root}>
+        <div className={classes.title}>
+         <Typography variant="title" id="tableTitle">
+           {props.date}
+         </Typography>
+        </div>
+      </Toolbar>
       <Table className={classes.table}>
         <TableHead>
           <TableRow>
