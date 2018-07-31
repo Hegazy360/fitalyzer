@@ -1,6 +1,5 @@
 import React, {Component} from 'react'
 import ReactEcharts from 'echarts-for-react';
-import moment from 'moment'
 
 class ExerciseChart extends Component {
   constructor(props) {

@@ -3,6 +3,7 @@ import axios from 'axios'
 import ExerciseForm from './ExerciseForm'
 import ExerciseChart from './ExerciseChart'
 import ExercisesTable from './ExercisesTable';
+import ExercisesButtons from './ExercisesButtons';
 import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
 import groupBy from 'lodash/groupBy'
@@ -66,7 +67,6 @@ class Gym extends Component {
   }
   setExerciseData = (id) => {
     const exercisesSet = this.filterExercisesBy(this.state.exercises, "exercise_id");
-    const exerciseSet = exercisesSet[id]
     this.setState({
       exerciseDates: exercisesSet[id].map(exercise => (moment(exercise.created_at).format("MMMM Do YYYY"))),
       exerciseWeights: exercisesSet[id].map(exercise => (exercise.weight))
@@ -75,7 +75,6 @@ class Gym extends Component {
   componentDidMount() {
     axios.get('http://localhost:3001/api/v1/gyms/1/exercises').then(response => {
       this.setState({exercises: response.data})
-      console.log(this.state.exercises);
     }).catch(error => console.log(error))
   }
   render() {
@@ -95,13 +94,8 @@ class Gym extends Component {
       <span className="notification">
         {this.state.notification}
       </span>
-      {Object.keys(this.filterExercisesBy(this.state.exercises,"exercise_id")).map((key, index) => {
-        return (
-          <Button key = {key} onClick = {this.setExerciseData.bind(this, key)}>
-            {key}
-          </Button>
-        );
-      })}
+      <ExercisesButtons exercisesIds = {Object.keys(this.filterExercisesBy(this.state.exercises,"exercise_id"))} setExerciseData = {this.setExerciseData}/>
+
       <ExerciseChart exerciseDates = {this.state.exerciseDates} exerciseWeights = {this.state.exerciseWeights} />
     </div>);
   }
