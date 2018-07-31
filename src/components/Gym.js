@@ -16,7 +16,8 @@ class Gym extends Component {
       exercises: [],
       editingExerciseId: null,
       notification: '',
-      fadeInAnimation: false
+      exerciseDates: [],
+      exerciseWeights: []
     };
   }
   addNewExercise = (exercise) => {
@@ -63,9 +64,18 @@ class Gym extends Component {
   filterExercisesByDate = () => {
     return groupBy(this.state.exercises, (result) => moment(result.created_at).format("MMMM Do YYYY"));
   }
+  setExerciseData = (id) => {
+    const exercisesSet = this.filterExercisesBy(this.state.exercises, "exercise_id");
+    const exerciseSet = exercisesSet[id]
+    this.setState({
+      exerciseDates: exercisesSet[id].map(exercise => (moment(exercise.created_at).format("MMMM Do YYYY"))),
+      exerciseWeights: exercisesSet[id].map(exercise => (exercise.weight))
+    })
+  }
   componentDidMount() {
     axios.get('http://localhost:3001/api/v1/gyms/1/exercises').then(response => {
       this.setState({exercises: response.data})
+      console.log(this.state.exercises);
     }).catch(error => console.log(error))
   }
   render() {
@@ -85,7 +95,14 @@ class Gym extends Component {
       <span className="notification">
         {this.state.notification}
       </span>
-      <ExerciseChart exercises = {this.state.exercises} filterExercisesBy = {this.filterExercisesBy} />
+      {Object.keys(this.filterExercisesBy(this.state.exercises,"exercise_id")).map((key, index) => {
+        return (
+          <Button key = {key} onClick = {this.setExerciseData.bind(this, key)}>
+            {key}
+          </Button>
+        );
+      })}
+      <ExerciseChart exerciseDates = {this.state.exerciseDates} exerciseWeights = {this.state.exerciseWeights} />
     </div>);
   }
 }
