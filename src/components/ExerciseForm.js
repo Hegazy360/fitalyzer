@@ -6,23 +6,6 @@ import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
 import Grid from '@material-ui/core/Grid';
 
-const styles = theme => ({
-  root: {
-    flexGrow: 1
-  },
-  demo: {
-    height: 240
-  },
-  paper: {
-    padding: theme.spacing.unit * 2,
-    height: '100%',
-    color: theme.palette.text.secondary
-  },
-  control: {
-    padding: theme.spacing.unit * 2
-  }
-});
-
 class ExerciseForm extends Component {
   constructor(props) {
     super(props)
@@ -47,13 +30,11 @@ class ExerciseForm extends Component {
         options: response.data.results.map(result => ({label: result.name, value: result.id})),
         isSelectLoading: false
       });
-      console.log(this.state.options);
     }).catch(error => console.log(error))
   }
   handleChange = (selectedOption) => {
     this.props.resetNotification()
     this.setState({selectedOption, exercise_id: selectedOption? selectedOption.value : '', name: selectedOption? selectedOption.label : ''});
-    console.log(`Option selected:`, selectedOption);
   }
   handleInput = (e) => {
     this.props.resetNotification()

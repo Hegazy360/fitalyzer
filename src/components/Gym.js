@@ -6,8 +6,6 @@ import ExercisesTable from './ExercisesTable';
 import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
 import groupBy from 'lodash/groupBy'
-import sortBy from 'lodash/sortBy'
-import orderBy from 'lodash/orderBy'
 import moment from 'moment'
 import update from 'immutability-helper'
 
@@ -60,11 +58,10 @@ class Gym extends Component {
     this.setState({editingExerciseId: 1})
   }
   filterExercisesBy = (exercisesArray, value) => {
-    console.log(groupBy(this.state.exercises, value))
     return groupBy(exercisesArray, value)
   }
   filterExercisesByDate = () => {
-    return groupBy(this.state.exercises, (result) => moment(result.created_at).startOf('isoWeek'));
+    return groupBy(this.state.exercises, (result) => moment(result.created_at).format("MMMM Do YYYY"));
   }
   componentDidMount() {
     axios.get('http://localhost:3001/api/v1/gyms/1/exercises').then(response => {
@@ -73,13 +70,11 @@ class Gym extends Component {
   }
   render() {
     const exercisesDates = Object.keys(this.filterExercisesByDate())
-    console.log(exercisesDates[0])
     const exercisesByDate = this.filterExercisesByDate()
-    console.log(this.filterExercisesBy(exercisesByDate[exercisesDates[0]], "exercise_id"));
     return (<div>
       {exercisesDates.map((key, index) => {
         return (
-          <ExercisesTable key = {index} exercises = {exercisesByDate[key]} date = {moment(key).format("MMMM Do YYYY")} fadeInAnimation = {this.state.fadeInAnimation} deleteExercise = {this.deleteExercise}/>
+          <ExercisesTable key = {index} exercises = {exercisesByDate[key]} date = {key} fadeInAnimation = {this.state.fadeInAnimation} deleteExercise = {this.deleteExercise}/>
         );
       })}
       <Button variant="extendedFab" color= "primary" aria-label="Add" className="newExerciseButton" onClick={this.toggleForm}>
@@ -90,9 +85,7 @@ class Gym extends Component {
       <span className="notification">
         {this.state.notification}
       </span>
-      {console.log()}
-      {console.log(exercisesByDate)}
-      <ExerciseChart />
+      <ExerciseChart exercises = {this.state.exercises} filterExercisesBy = {this.filterExercisesBy} />
     </div>);
   }
 }
