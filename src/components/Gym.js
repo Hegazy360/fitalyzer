@@ -7,6 +7,7 @@ import ExercisesButtons from './ExercisesButtons';
 import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
 import groupBy from 'lodash/groupBy'
+import max from 'lodash/max'
 import moment from 'moment'
 import update from 'immutability-helper'
 
@@ -22,13 +23,16 @@ class Gym extends Component {
     };
   }
   addNewExercise = (exercise) => {
+    console.log(exercise);
     axios.post('http://localhost:3001/api/v1/gyms/1/exercises', {exercise: exercise}).then(response => {
       const exercises = update(this.state.exercises, {
         $splice: [
           [this.state.exercises.length, this.state.exercises.length, response.data]
         ]
       })
+      console.log(response.data);
       this.setState({exercises: exercises, editingExerciseId: null, fadeInAnimation: true})
+      console.log(this.state.exercises);
     }).catch(error => console.log(error))
   }
   deleteExercise = (id) => {
@@ -66,15 +70,18 @@ class Gym extends Component {
     return groupBy(this.state.exercises, (result) => moment(result.created_at).format("MMMM Do YYYY"));
   }
   setExerciseData = (id) => {
+    // TODO: immutate state
     const exercisesSet = this.filterExercisesBy(this.state.exercises, "exercise_id");
+    console.log(exercisesSet[id].map(exercise => (max(exercise.sets.map(set => (set.weight))))));
     this.setState({
       exerciseDates: exercisesSet[id].map(exercise => (moment(exercise.created_at).format("MMMM Do YYYY"))),
-      exerciseWeights: exercisesSet[id].map(exercise => (exercise.weight))
+      exerciseWeights: exercisesSet[id].map(exercise => (max(exercise.sets.map(set => (set.weight)))))
     })
   }
   componentDidMount() {
     axios.get('http://localhost:3001/api/v1/gyms/1/exercises').then(response => {
       this.setState({exercises: response.data})
+      console.log(this.state.exercises);
     }).catch(error => console.log(error))
   }
   render() {
@@ -94,6 +101,8 @@ class Gym extends Component {
       <span className="notification">
         {this.state.notification}
       </span>
+      <br />
+      <br />
       <ExercisesButtons exercisesIds = {Object.keys(this.filterExercisesBy(this.state.exercises,"exercise_id"))} setExerciseData = {this.setExerciseData}/>
 
       <ExerciseChart exerciseDates = {this.state.exerciseDates} exerciseWeights = {this.state.exerciseWeights} />

@@ -5,6 +5,7 @@ import Select from 'react-select';
 import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
 import Grid from '@material-ui/core/Grid';
+import update from 'immutability-helper'
 
 class ExerciseForm extends Component {
   constructor(props) {
@@ -12,9 +13,8 @@ class ExerciseForm extends Component {
     this.state = {
       exercise_id: null,
       name: '',
-      weight: null,
-      sets: null,
-      reps: null,
+      setsDone: 0,
+      sets: [],
       selectedOption: '',
       isSelectLoading: true,
       options: []
@@ -42,32 +42,67 @@ class ExerciseForm extends Component {
       [e.target.name]: e.target.value
     })
   }
+  handleSets = (id, e) => {
+    this.props.resetNotification()
+    console.log(e.target.name);
+    if(e.target.name == "weight"){
+      const setValue = {"weight": e.target.value || '0', "reps": this.state.sets[id]? this.state.sets[id].reps : '0'}
+      const sets = update(this.state.sets, {
+        [id]: {
+          $set: setValue
+        }
+      })
+      this.setState({sets: sets}, () => console.log(this.state.sets))
+    }
+    else if (e.target.name === "reps") {
+      const setValue = {"weight": this.state.sets[id]? this.state.sets[id].weight : '0', "reps": e.target.value || '0'}
+
+      const sets = update(this.state.sets, {
+        [id]: {
+          $set: setValue
+        }
+      })
+      this.setState({sets: sets}, () => console.log(this.state.sets))
+    }
+  }
   createExercise = () => {
     const exercise = {
       exercise_id: this.state.exercise_id,
       name: this.state.name,
-      weight: this.state.weight,
-      sets: this.state.sets,
-      reps: this.state.reps
+      sets: this.state.sets
     }
     this.props.addNewExercise(exercise)
   }
+  renderSetsForms = () => {
+    const movieItems = [];
+    for (var i=0; i < this.state.setsDone; i++) {
+        movieItems.push(
+          <Grid key = {i} container alignItems="center" direction="row" justify="center" spacing={16}>
+            <TextField id="weight" className={this.props.textField} onChange={this.handleSets.bind(this, i)} margin="normal" label='Set weight' name="weight"/>
+            <TextField id="reps" className={this.props.textField} onChange={this.handleSets.bind(this, i)} margin="normal" label='Set reps' name="reps"/>
+          </Grid>
+        );
+    }
+    return movieItems;
+  }
+
   render() {
     return (<div className="tile">
       <form>
-        <Grid container alignItems="flex-end" direction="row" justify="center" spacing={16} className={this.props.demo}>
+        <Grid container alignItems="flex-end" direction="row" justify="center" spacing={16}>
           <Grid item xs={3}>
             <Select value={this.state.selectedOption} onChange={this.handleChange} options={this.state.options} name="name" isClearable maxMenuHeight="150" menuPlacement="bottom" isLoading={this.state.isSelectLoading}/>
           </Grid>
           <Grid item>
-            <TextField id="weight" className={this.props.textField} onChange={this.handleInput} margin="normal" label='Weight lifted' name="weight" required/>
+            <TextField id="sets_number" className={this.props.textField} onChange={this.handleInput} margin="normal" label='Sets done' name="setsDone"/>
           </Grid>
-          <Grid item>
-            <TextField id="sets" className={this.props.textField} onChange={this.handleInput} margin="normal" label='Sets done' name="sets" required/>
-          </Grid>
-          <Grid item>
-            <TextField id="reps" className={this.props.textField} onChange={this.handleInput} margin="normal" label='Reps done' name="reps" required/>
-          </Grid>
+        </Grid>
+        <Grid container alignItems="flex-end" direction="row" justify="center" spacing={16}>
+          {
+            this.renderSetsForms()
+          }
+        </Grid>
+        <Grid container alignItems="flex-end" direction="row" justify="center" spacing={16}>
           <Grid item>
             <Button variant="extendedFab" color="primary" aria-label="Add" className="newExerciseButton" onClick={this.createExercise}>
               <AddIcon/>

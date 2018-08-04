@@ -12,7 +12,7 @@ class ExerciseChart extends Component {
   getOptions = () => {
     const options = {
       title: {
-        text: 'Bench Press'
+        text: ''
       },
       xAxis: {
         type: 'category',

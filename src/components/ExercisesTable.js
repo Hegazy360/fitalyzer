@@ -38,8 +38,8 @@ class ExercisesTable extends React.Component {
           <TableHead>
             <TableRow>
               <TableCell>Exercise name</TableCell>
-              <TableCell>Weight</TableCell>
               <TableCell>Sets</TableCell>
+              <TableCell>Weight</TableCell>
               <TableCell>Reps</TableCell>
               <TableCell>Delete</TableCell>
             </TableRow>
@@ -49,9 +49,31 @@ class ExercisesTable extends React.Component {
               return (
                 <TableRow key={exercise.id}>
                   <TableCell>{exercise.name}</TableCell>
-                  <TableCell>{exercise.weight}</TableCell>
-                  <TableCell>{exercise.sets}</TableCell>
-                  <TableCell>{exercise.reps}</TableCell>
+                  <TableCell>{exercise.sets.length}</TableCell>
+                  <TableCell>
+                    {
+                      exercise.sets.map(set => {
+                          return (
+                            <span key= {set.id}>
+                              {set.weight},
+                            </span>
+                          )
+                        }
+                      )
+                    }
+                  </TableCell>
+                  <TableCell>
+                    {
+                      exercise.sets.map(set => {
+                          return (
+                            <span key= {set.id}>
+                              {set.reps},
+                            </span>
+                          )
+                        }
+                      )
+                    }
+                  </TableCell>
                   <TableCell>
                     <Button>
                       <DeleteForeverOutlinedIcon className={this.props.icon} color="action" onClick={() => { this.props.deleteExercise(exercise.id) }} />
