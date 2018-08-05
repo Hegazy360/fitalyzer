@@ -1,8 +1,3 @@
-body {
-  font-family: Helvetica, sans-serif;
-  padding: 30px 40px;
-}
-
 .input {
   border: 0;
   background: none;
@@ -20,8 +15,4 @@ textarea {
   resize: none;
   height: 90px;
   font-size: 11px;
-}
-
-.big_title {
-  text-align: center;
 }
