@@ -6,6 +6,8 @@ import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
 import Grid from '@material-ui/core/Grid';
 import update from 'immutability-helper'
+import './css/ExerciseForm.css';
+import { TransitionGroup, CSSTransition } from "react-transition-group";
 
 class ExerciseForm extends Component {
   constructor(props) {
@@ -17,10 +19,14 @@ class ExerciseForm extends Component {
       sets: [],
       selectedOption: '',
       isSelectLoading: true,
-      options: []
+      options: [],
+      mounted: false
     }
   }
   componentDidMount() {
+    this.setState({
+      mounted: true
+    })
     axios.get('https://wger.de/api/v2/exercise/?format=json&limit=350&language=2&status=2', {}, {
       headers: {
         'Authorization': "Token ab84da10dcddca08fb0a6c0a392b9a27ee7f53df"
@@ -28,7 +34,7 @@ class ExerciseForm extends Component {
     }).then(response => {
       this.setState({
         options: response.data.results.map(result => ({label: result.name, value: result.id})),
-        isSelectLoading: false
+        isSelectLoading: false,
       });
     }).catch(error => console.log(error))
   }
@@ -66,6 +72,7 @@ class ExerciseForm extends Component {
     }
   }
   createExercise = () => {
+    this.setState({mounted: false})
     const exercise = {
       exercise_id: this.state.exercise_id,
       name: this.state.name,
@@ -88,29 +95,36 @@ class ExerciseForm extends Component {
 
   render() {
     return (<div className="tile">
-      <form>
-        <Grid container alignItems="flex-end" direction="row" justify="center" spacing={16}>
-          <Grid item xs={3}>
-            <Select value={this.state.selectedOption} onChange={this.handleChange} options={this.state.options} name="name" isClearable maxMenuHeight="150" menuPlacement="bottom" isLoading={this.state.isSelectLoading}/>
+      <CSSTransition
+        classNames="slide-down"
+        in={this.state.mounted}
+        timeout={{ enter: 300, exit: 300 }}
+      >
+        <form>
+          <Grid container alignItems="flex-end" direction="row" justify="center" spacing={16}>
+            <Grid item xs={3}>
+              <Select value={this.state.selectedOption} onChange={this.handleChange} options={this.state.options} name="name" isClearable maxMenuHeight="150" menuPlacement="bottom" isLoading={this.state.isSelectLoading}/>
+            </Grid>
+            <Grid item>
+              <TextField id="sets_number" className={this.props.textField} onChange={this.handleInput} margin="normal" label='Sets done' name="setsDone"/>
+            </Grid>
           </Grid>
-          <Grid item>
-            <TextField id="sets_number" className={this.props.textField} onChange={this.handleInput} margin="normal" label='Sets done' name="setsDone"/>
+          <Grid container alignItems="flex-end" direction="row" justify="center" spacing={16}>
+            {
+              this.renderSetsForms()
+            }
           </Grid>
-        </Grid>
-        <Grid container alignItems="flex-end" direction="row" justify="center" spacing={16}>
-          {
-            this.renderSetsForms()
-          }
-        </Grid>
-        <Grid container alignItems="flex-end" direction="row" justify="center" spacing={16}>
-          <Grid item>
-            <Button variant="extendedFab" color="primary" aria-label="Add" className="newExerciseButton" onClick={this.createExercise}>
-              <AddIcon/>
-              Add Exercise
-            </Button>
+          <Grid container alignItems="flex-end" direction="row" justify="center" spacing={16}>
+            <Grid item>
+              <Button variant="extendedFab" color="primary" aria-label="Add" className="newExerciseButton" onClick={this.createExercise}>
+                <AddIcon/>
+                Add Exercise
+              </Button>
+            </Grid>
           </Grid>
-        </Grid>
-      </form>
+        </form>
+      </CSSTransition>
+
     </div>);
   }
 }

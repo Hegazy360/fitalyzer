@@ -1,18 +1,18 @@
-.fade-enter {
+.slide-enter {
   opacity: 0;
   transform: scaleX(0);
   transform-origin: left;
 }
 
-.fade-enter.fade-enter-active {
+.slide-enter.slide-enter-active {
   animation: grow-left cubic-bezier(0.785, 0.135, 0.15, 0.86) 0.5s forwards;
 }
 
-.fade-exit {
+.slide-exit {
   opacity: 1;
 }
 
-.fade-exit.fade-exit-active {
+.slide-exit.slide-exit-active {
   opacity: 0;
   transition: all 300ms ease-in;
 }
@@ -27,17 +27,6 @@ section.route-section {
   top: 0;
   left: 0;
   padding: 15px;
-}
-
-@keyframes fade-in-right {
-  from {
-    opacity: 0;
-    transform: translateX(-15px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
 }
 
 @keyframes grow-left {

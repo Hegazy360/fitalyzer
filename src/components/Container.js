@@ -12,7 +12,7 @@ function Container({ location }) {
         <CSSTransition
           key={location.key}
           timeout={{ enter: 300, exit: 300 }}
-          classNames={'fade'}
+          classNames={'slide'}
         >
           <section className="route-section">
             <Switch location={location}>
