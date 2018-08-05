@@ -1,18 +1,17 @@
 import React, {Component} from 'react';
 import Gym from './components/Gym'
+import Home from './components/Home'
+import Header from './components/Header'
 import 'semantic-ui-css/semantic.css'
 import './App.css';
-import Typography from '@material-ui/core/Typography';
+import {Route} from "react-router-dom";
 
 class App extends Component {
   render() {
     return (<div className="App">
-      <div className="App-header">
-        <Typography variant="display4" gutterBottom className="big_title">
-          Fitalyzer
-        </Typography>
-      </div>
-      <Gym/>
+      <Header />
+      <Route exact path="/" component={Home} />
+      <Route exact path="/gym" component={Gym} />
     </div>);
   }
 }

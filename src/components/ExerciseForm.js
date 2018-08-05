@@ -45,7 +45,7 @@ class ExerciseForm extends Component {
   handleSets = (id, e) => {
     this.props.resetNotification()
     console.log(e.target.name);
-    if(e.target.name == "weight"){
+    if(e.target.name === "weight"){
       const setValue = {"weight": e.target.value || '0', "reps": this.state.sets[id]? this.state.sets[id].reps : '0'}
       const sets = update(this.state.sets, {
         [id]: {
