@@ -33,7 +33,7 @@ class ExerciseChart extends Component {
   render() {
     return (
       <div>
-        <ReactEcharts option={this.getOptions()} notMerge={true} lazyUpdate={true} onChartReady={this.onChartReadyCallback} />
+        <ReactEcharts option={this.getOptions()} />
       </div>
   )
   }

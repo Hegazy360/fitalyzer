@@ -1,11 +1,14 @@
 .slide-down-enter {
+  overflow: hidden;
   opacity: 0;
-  transform: scaleY(0);
+  max-height: 0;
   transform-origin: top;
 }
 
 .slide-down-enter.slide-down-enter-active {
-  animation: slide-down cubic-bezier(0.785, 0.135, 0.15, 0.86) 0.5s forwards;
+  max-height: 1000px;
+  opacity: 1;
+  transition: all 2s ease;
 }
 
 .slide-down-exit {
@@ -15,15 +18,4 @@
 .slide-down-exit.slide-down-exit-active {
   opacity: 0;
   transition: all 300ms ease-in;
-}
-
-@keyframes slide-down {
-  from {
-    opacity: 0;
-    transform: scaleY(0);
-  }
-  to {
-    opacity: 1;
-    transform: scaleY(1);
-  }
 }

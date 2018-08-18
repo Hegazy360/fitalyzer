@@ -4,10 +4,11 @@ import TextField from '@material-ui/core/TextField';
 import Select from 'react-select';
 import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
+import Tooltip from '@material-ui/core/Tooltip';
 import Grid from '@material-ui/core/Grid';
 import update from 'immutability-helper'
 import './css/ExerciseForm.css';
-import { TransitionGroup, CSSTransition } from "react-transition-group";
+import { CSSTransition } from "react-transition-group";
 
 class ExerciseForm extends Component {
   constructor(props) {
@@ -78,6 +79,8 @@ class ExerciseForm extends Component {
       name: this.state.name,
       sets: this.state.sets
     }
+    console.log("OKOK");
+    console.log(exercise);
     this.props.addNewExercise(exercise)
   }
   renderSetsForms = () => {
@@ -108,19 +111,18 @@ class ExerciseForm extends Component {
             <Grid item>
               <TextField id="sets_number" className={this.props.textField} onChange={this.handleInput} margin="normal" label='Sets done' name="setsDone"/>
             </Grid>
+            <Grid item>
+              <Tooltip title="Save Exercise" placement="right">
+                <Button variant="fab" color="primary" aria-label="Save" className={this.props.button} onClick={this.createExercise}>
+                  <AddIcon />
+                </Button>
+              </Tooltip>
+            </Grid>
           </Grid>
           <Grid container alignItems="flex-end" direction="row" justify="center" spacing={16}>
             {
               this.renderSetsForms()
             }
-          </Grid>
-          <Grid container alignItems="flex-end" direction="row" justify="center" spacing={16}>
-            <Grid item>
-              <Button variant="extendedFab" color="primary" aria-label="Add" className="newExerciseButton" onClick={this.createExercise}>
-                <AddIcon/>
-                Add Exercise
-              </Button>
-            </Grid>
           </Grid>
         </form>
       </CSSTransition>

@@ -9,6 +9,9 @@ import Button from '@material-ui/core/Button';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import DeleteForeverOutlinedIcon from '@material-ui/icons/DeleteForeverOutlined';
+import { TransitionGroup, CSSTransition } from "react-transition-group";
+import './css/ExercisesTable.css';
+import moment from 'moment'
 
 const styles = {
   root: {
@@ -30,7 +33,7 @@ class ExercisesTable extends React.Component {
         <Toolbar>
           <div>
            <Typography variant="title" id="tableTitle">
-             {this.props.date}
+             {moment(Number(this.props.date)).format('MMMM Do YYYY')}
            </Typography>
           </div>
         </Toolbar>
@@ -44,45 +47,51 @@ class ExercisesTable extends React.Component {
               <TableCell>Delete</TableCell>
             </TableRow>
           </TableHead>
-          <TableBody>
+          <TransitionGroup component={TableBody}>
             {this.props.exercises.map(exercise => {
               return (
-                <TableRow key={exercise.id}>
-                  <TableCell>{exercise.name}</TableCell>
-                  <TableCell>{exercise.sets.length}</TableCell>
-                  <TableCell>
-                    {
-                      exercise.sets.map(set => {
-                          return (
-                            <span key= {set.id}>
-                              {set.weight},
-                            </span>
-                          )
-                        }
-                      )
-                    }
-                  </TableCell>
-                  <TableCell>
-                    {
-                      exercise.sets.map(set => {
-                          return (
-                            <span key= {set.id}>
-                              {set.reps},
-                            </span>
-                          )
-                        }
-                      )
-                    }
-                  </TableCell>
-                  <TableCell>
-                    <Button>
-                      <DeleteForeverOutlinedIcon className={this.props.icon} color="action" onClick={() => { this.props.deleteExercise(exercise.id) }} />
-                    </Button>
-                  </TableCell>
-                </TableRow>
+                <CSSTransition
+                  key={exercise.id}
+                  timeout={{ enter: 300, exit: 300 }}
+                  classNames={'fade'}
+                >
+                  <TableRow>
+                    <TableCell>{exercise.name}</TableCell>
+                    <TableCell>{exercise.sets.length}</TableCell>
+                    <TableCell>
+                      {
+                        exercise.sets.map(set => {
+                            return (
+                              <span key= {set.id}>
+                                {set.weight},
+                              </span>
+                            )
+                          }
+                        )
+                      }
+                    </TableCell>
+                    <TableCell>
+                      {
+                        exercise.sets.map(set => {
+                            return (
+                              <span key= {set.id}>
+                                {set.reps},
+                              </span>
+                            )
+                          }
+                        )
+                      }
+                    </TableCell>
+                    <TableCell>
+                      <Button>
+                        <DeleteForeverOutlinedIcon className={this.props.icon} color="action" onClick={() => { this.props.deleteExercise(exercise.id) }} />
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                </CSSTransition>
               );
             })}
-          </TableBody>
+          </TransitionGroup>
         </Table>
       </Paper>
     );

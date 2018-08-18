@@ -3,6 +3,7 @@ import axios from 'axios'
 import ExerciseForm from './ExerciseForm'
 import ExerciseChart from './ExerciseChart'
 import ExercisesTable from './ExercisesTable';
+import WorkoutCalendar from './WorkoutCalendar';
 import ExercisesButtons from './ExercisesButtons';
 import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
@@ -10,6 +11,7 @@ import groupBy from 'lodash/groupBy'
 import max from 'lodash/max'
 import moment from 'moment'
 import update from 'immutability-helper'
+import Grid from '@material-ui/core/Grid';
 
 class Gym extends Component {
   constructor(props) {
@@ -19,7 +21,9 @@ class Gym extends Component {
       editingExerciseId: null,
       notification: '',
       exerciseDates: [],
-      exerciseWeights: []
+      exerciseWeights: [],
+      exercisesDates: [],
+      exercisesByDate: []
     };
   }
   addNewExercise = (exercise) => {
@@ -30,9 +34,8 @@ class Gym extends Component {
           [this.state.exercises.length, this.state.exercises.length, response.data]
         ]
       })
-      console.log(response.data);
       this.setState({exercises: exercises, editingExerciseId: null, fadeInAnimation: true})
-      console.log(this.state.exercises);
+      this.filterExercisesByDate()
     }).catch(error => console.log(error))
   }
   deleteExercise = (id) => {
@@ -67,12 +70,15 @@ class Gym extends Component {
     return groupBy(exercisesArray, value)
   }
   filterExercisesByDate = () => {
-    return groupBy(this.state.exercises, (result) => moment(result.created_at).format("MMMM Do YYYY"));
+    const results = groupBy(this.state.exercises, (result) => new Date(result.created_at).setHours(0,0,0,0))
+    this.setState({
+      exercisesDates: Object.keys(results),
+      exercisesByDate: results
+    })
   }
   setExerciseData = (id) => {
     // TODO: immutate state
     const exercisesSet = this.filterExercisesBy(this.state.exercises, "exercise_id");
-    console.log(exercisesSet[id].map(exercise => (max(exercise.sets.map(set => (set.weight))))));
     this.setState({
       exerciseDates: exercisesSet[id].map(exercise => (moment(exercise.created_at).format("MMMM Do YYYY"))),
       exerciseWeights: exercisesSet[id].map(exercise => (max(exercise.sets.map(set => (set.weight)))))
@@ -81,32 +87,46 @@ class Gym extends Component {
   componentDidMount() {
     axios.get('http://localhost:3001/api/v1/gyms/1/exercises').then(response => {
       this.setState({exercises: response.data})
-      console.log(this.state.exercises);
+      this.filterExercisesByDate()
     }).catch(error => console.log(error))
   }
   render() {
-    const exercisesDates = Object.keys(this.filterExercisesByDate())
-    const exercisesByDate = this.filterExercisesByDate()
-    return (<div>
-      {exercisesDates.map((key, index) => {
-        return (
-          <ExercisesTable key = {index} exercises = {exercisesByDate[key]} date = {key} fadeInAnimation = {this.state.fadeInAnimation} deleteExercise = {this.deleteExercise}/>
-        );
-      })}
-      <Button variant="extendedFab" color= "primary" aria-label="Add" className="newExerciseButton" onClick={this.toggleForm}>
-        <AddIcon />
-        Add Exercise
-      </Button>
-      {this.state.editingExerciseId && <ExerciseForm addNewExercise={this.addNewExercise} resetNotification={this.resetNotification}/>}
-      <span className="notification">
-        {this.state.notification}
-      </span>
-      <br />
-      <br />
-      <ExercisesButtons exercisesIds = {Object.keys(this.filterExercisesBy(this.state.exercises,"exercise_id"))} setExerciseData = {this.setExerciseData}/>
 
-      <ExerciseChart exerciseDates = {this.state.exerciseDates} exerciseWeights = {this.state.exerciseWeights} />
-    </div>);
+    return (
+      <Grid container>
+        <Grid item xs={12}>
+          <WorkoutCalendar exercisesDates = {this.state.exercisesDates}/>
+        </Grid>
+        <Grid item xs={12}>
+          {this.state.exercisesDates.map((key, index) => {
+            return (
+              <ExercisesTable key = {index} exercises = {this.state.exercisesByDate[key]} date = {key} fadeInAnimation = {this.state.fadeInAnimation} deleteExercise = {this.deleteExercise}/>
+            );
+          })}
+        </Grid>
+        <Grid item xs={12}>
+          {!this.state.editingExerciseId &&
+            <Button variant="extendedFab" color= "primary" aria-label="Add" className="newExerciseButton" onClick={this.toggleForm}>
+              <AddIcon />
+              Add Exercise
+            </Button>
+           }
+        </Grid>
+        <Grid item xs={12}>
+          {this.state.editingExerciseId && <ExerciseForm addNewExercise={this.addNewExercise} resetNotification={this.resetNotification}/>}
+          <span className="notification">
+            {this.state.notification}
+          </span>
+        </Grid>
+        <Grid item xs={11}>
+          <br />
+          <br />
+          <ExercisesButtons exercisesIds = {Object.keys(this.filterExercisesBy(this.state.exercises,"exercise_id"))} setExerciseData = {this.setExerciseData}/>
+        </Grid>
+        <Grid item xs={12}>
+          <ExerciseChart exerciseDates = {this.state.exerciseDates} exerciseWeights = {this.state.exerciseWeights} />
+        </Grid>
+      </Grid>);
   }
 }
 export default Gym
