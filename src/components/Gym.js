@@ -23,7 +23,8 @@ class Gym extends Component {
       exerciseDates: [],
       exerciseWeights: [],
       exercisesDates: [],
-      exercisesByDate: []
+      exercisesByDate: [],
+      activeWorkoutDate: null
     };
   }
   addNewExercise = (exercise) => {
@@ -77,13 +78,19 @@ class Gym extends Component {
     })
   }
   setExerciseData = (id) => {
-    // TODO: immutate state
     const exercisesSet = this.filterExercisesBy(this.state.exercises, "exercise_id");
     this.setState({
       exerciseDates: exercisesSet[id].map(exercise => (moment(exercise.created_at).format("MMMM Do YYYY"))),
       exerciseWeights: exercisesSet[id].map(exercise => (max(exercise.sets.map(set => (set.weight)))))
     })
   }
+
+  handleDayClick = (date) => {
+    this.setState({
+      activeWorkoutDate: date,
+    })
+  }
+
   componentDidMount() {
     axios.get('http://localhost:3001/api/v1/gyms/1/exercises').then(response => {
       this.setState({exercises: response.data})
@@ -95,14 +102,10 @@ class Gym extends Component {
     return (
       <Grid container>
         <Grid item xs={12}>
-          <WorkoutCalendar exercisesDates = {this.state.exercisesDates}/>
+          <WorkoutCalendar exercisesDates = {this.state.exercisesDates} handleDayClick = {this.handleDayClick}/>
         </Grid>
         <Grid item xs={12}>
-          {this.state.exercisesDates.map((key, index) => {
-            return (
-              <ExercisesTable key = {index} exercises = {this.state.exercisesByDate[key]} date = {key} fadeInAnimation = {this.state.fadeInAnimation} deleteExercise = {this.deleteExercise}/>
-            );
-          })}
+          {this.state.activeWorkoutDate && <ExercisesTable exercises = {this.state.exercisesByDate[this.state.activeWorkoutDate]} date = {this.state.activeWorkoutDate} fadeInAnimation = {this.state.fadeInAnimation} deleteExercise = {this.deleteExercise}/>}
         </Grid>
         <Grid item xs={12}>
           {!this.state.editingExerciseId &&

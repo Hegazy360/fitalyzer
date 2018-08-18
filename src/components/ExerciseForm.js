@@ -79,8 +79,6 @@ class ExerciseForm extends Component {
       name: this.state.name,
       sets: this.state.sets
     }
-    console.log("OKOK");
-    console.log(exercise);
     this.props.addNewExercise(exercise)
   }
   renderSetsForms = () => {

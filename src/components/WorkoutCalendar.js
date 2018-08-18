@@ -16,7 +16,7 @@ class WorkoutCalendar extends Component {
     const dates = this.props.exercisesDates
     return (
       <div>
-        <Calendar activeStartDate = {new Date()} calendarType = "ISO 8601" onClickDay = {(value) => console.log(value)} tileClassName = {({ date, view }) => includes(dates, date.getTime().toString())? 'training-day' : null}/>
+        <Calendar activeStartDate = {new Date()} calendarType = "ISO 8601" tileDisabled = {({date, view }) => !includes(dates, date.getTime().toString())} onClickDay = {(value) => this.props.handleDayClick(value.getTime())} tileClassName = {({ date, view }) => includes(dates, date.getTime().toString())? 'training-day' : null}/>
       </div>
     )
   }
