@@ -9,7 +9,7 @@ import Button from '@material-ui/core/Button';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import DeleteForeverOutlinedIcon from '@material-ui/icons/DeleteForeverOutlined';
-import './css/ExercisesTable.css';
+import './css/ExercisesTable.scss';
 import moment from 'moment'
 
 const styles = {

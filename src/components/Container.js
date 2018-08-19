@@ -1,7 +1,7 @@
 import React from "react";
 import { Switch, Route, withRouter } from "react-router-dom";
 import { TransitionGroup, CSSTransition } from "react-transition-group";
-import './css/Container.css';
+import './css/Container.scss';
 import Home from "./Home";
 import Gym from "./Gym";
 

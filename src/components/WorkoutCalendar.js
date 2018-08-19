@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import Calendar from 'react-calendar';
 import includes from 'lodash/includes'
 import dumbbell from '../images/dumbbell.svg';
-import './css/ExercisesCalendar.css';
+import './css/ExercisesCalendar.scss';
 
 class WorkoutCalendar extends Component {
 
