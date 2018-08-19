@@ -109,10 +109,13 @@ class Gym extends Component {
         </Grid>
         <Grid item xs={12}>
           {!this.state.editingExerciseId &&
-            <Button variant="extendedFab" color= "primary" aria-label="Add" className="newExerciseButton" onClick={this.toggleForm}>
-              <AddIcon />
-              Add Exercise
-            </Button>
+            <center>
+              <br/>
+              <Button variant="extendedFab" color= "primary" aria-label="Add" className="newExerciseButton" onClick={this.toggleForm}>
+                <AddIcon />
+                Add Exercise
+              </Button>
+            </center>
            }
         </Grid>
         <Grid item xs={12}>

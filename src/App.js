@@ -3,20 +3,21 @@ import Header from './components/Header'
 import Container from './components/Container'
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
+import './App.css';
 
 const theme = createMuiTheme({
   palette: {
     primary: {
-      light: '#ff7961',
-      main: '#f44336',
-      dark: '#ba000d',
-      contrastText: '#fff',
+      light: 'rgb(255, 255, 255)',
+      main: '#524763',
+      dark: '#373142',
+      contrastText: 'rgb(255, 255, 255)',
     },
     secondary: {
-      light: '#ff4569',
-      main: '#ff1744',
+      light: 'rgb(241, 193, 93)',
+      main: 'rgb(130, 216, 216)',
       dark: '#b2102f',
-      contrastText: '#fff',
+      contrastText: 'rgb(55, 49, 66)',
     },
   },
 });
@@ -27,7 +28,7 @@ class App extends Component {
       <MuiThemeProvider theme={theme}>
         <CssBaseline />
         <div className="App">
-          <Header />
+          <Header theme={theme}/>
           <Container />
         </div>
       </MuiThemeProvider>

@@ -1,2 +1,17 @@
-.training-day {
+.react-calendar {
+  width: 100%;
+}
+.react-calendar__tile {
+  font-size: 1em;
+  font-weight: 600;
+  position: relative;
+}
+button.react-calendar__tile--active:enabled:hover, button.react-calendar__tile--active:enabled:focus {
+  background: rgb(130, 216, 216);
+}
+.dumbbell {
+  position: absolute;
+  width: 1em;
+  margin-left: 0.6em;
+  top: 0.6em;
 }

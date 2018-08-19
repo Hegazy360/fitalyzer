@@ -49,8 +49,7 @@ class ExercisesTable extends React.Component {
           <TableBody>
             {this.props.exercises.map(exercise => {
               return (
-
-                <TableRow>
+                <TableRow key = {exercise.id}>
                   <TableCell>{exercise.name}</TableCell>
                   <TableCell>{exercise.sets.length}</TableCell>
                   <TableCell>
