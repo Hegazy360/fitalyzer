@@ -1,91 +1,62 @@
 import React from 'react';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
-import Button from '@material-ui/core/Button';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import DeleteForeverOutlinedIcon from '@material-ui/icons/DeleteForeverOutlined';
 import './css/ExercisesTable.scss';
-import moment from 'moment'
+import {Button, Table} from 'semantic-ui-react'
 
-const styles = {
-  root: {
-    width: '100%',
-    margin: 'auto',
-    marginBottom: 25,
-    overflowX: 'auto',
-  },
-  table: {
-    minWidth: 545
-  },
-};
 
 class ExercisesTable extends React.Component {
   render() {
     return (
-      <Paper style={{...styles.root}}>
-        <Toolbar>
-          <div>
-           <Typography variant="title" id="tableTitle">
-             {moment(Number(this.props.date)).format('MMMM Do YYYY')}
-           </Typography>
-          </div>
-        </Toolbar>
-        <Table style={{...styles.table}}>
-          <TableHead>
-            <TableRow>
-              <TableCell>Exercise name</TableCell>
-              <TableCell>Sets</TableCell>
-              <TableCell>Weight</TableCell>
-              <TableCell>Reps</TableCell>
-              <TableCell>Delete</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {this.props.exercises.map(exercise => {
-              return (
-                <TableRow key = {exercise.id}>
-                  <TableCell>{exercise.name}</TableCell>
-                  <TableCell>{exercise.sets.length}</TableCell>
-                  <TableCell>
-                    {
-                      exercise.sets.map(set => {
-                          return (
-                            <span key= {set.id}>
-                              {set.weight},
-                            </span>
-                          )
-                        }
-                      )
-                    }
-                  </TableCell>
-                  <TableCell>
-                    {
-                      exercise.sets.map(set => {
-                          return (
-                            <span key= {set.id}>
-                              {set.reps},
-                            </span>
-                          )
-                        }
-                      )
-                    }
-                  </TableCell>
-                  <TableCell>
-                    <Button>
-                      <DeleteForeverOutlinedIcon className={this.props.icon} color="action" onClick={() => { this.props.deleteExercise(exercise.id) }} />
-                    </Button>
-                  </TableCell>
-                </TableRow>
-              );
-            })}
-          </TableBody>
-        </Table>
-      </Paper>
+      <Table celled structured>
+        <Table.Header>
+          <Table.Row>
+            <Table.HeaderCell rowSpan='2'>Exercise name</Table.HeaderCell>
+            <Table.HeaderCell rowSpan='2'>Sets</Table.HeaderCell>
+            <Table.HeaderCell colSpan='3'>Reps</Table.HeaderCell>
+            <Table.HeaderCell rowSpan='2'>Delete</Table.HeaderCell>
+          </Table.Row>
+          <Table.Row>
+            <Table.HeaderCell>1st set</Table.HeaderCell>
+            <Table.HeaderCell>2nd set</Table.HeaderCell>
+            <Table.HeaderCell>3rd set</Table.HeaderCell>
+          </Table.Row>
+        </Table.Header>
+
+        <Table.Body>
+          {this.props.exercises && this.props.exercises.map(exercise => {
+            return (
+              <Table.Row key = {exercise.id}>
+                <Table.Cell>
+                  {exercise.name}
+                </Table.Cell>
+                <Table.Cell>{exercise.sets.length}</Table.Cell>
+                <Table.Cell>
+                  {exercise.sets[0] && exercise.sets[0].reps + " ("}
+                  <b>
+                    {exercise.sets[0] && exercise.sets[0].weight + " KG)"}
+                  </b>
+                </Table.Cell>
+                <Table.Cell>
+                  {exercise.sets[1] && exercise.sets[1].reps + " ("}
+                  <b>
+                    {exercise.sets[1] && exercise.sets[1].weight + " KG)"}
+                  </b>
+                </Table.Cell>
+                <Table.Cell>
+                  {exercise.sets[2] && exercise.sets[2].reps + " ("}
+                  <b>
+                    {exercise.sets[2] && exercise.sets[2].weight  + " KG)"}
+                  </b>
+                </Table.Cell>
+                <Table.Cell>
+                  <center>
+                    <Button basic primary icon="trash" onClick={() => { this.props.deleteExercise(exercise.id) }} />
+                  </center>
+                </Table.Cell>
+              </Table.Row>
+            );
+          })}
+        </Table.Body>
+      </Table>
     );
   }
 }

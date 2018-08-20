@@ -40,11 +40,13 @@ class Gym extends Component {
     }).catch(error => console.log(error))
   }
   deleteExercise = (id) => {
+    // TODO: immutate state
     axios.delete(`http://localhost:3001/api/v1/exercises/${id}`)
     .then(response => {
       const exerciseIndex = this.state.exercises.findIndex(x => x.id === id)
       const exercises = update(this.state.exercises, { $splice: [[exerciseIndex, 1]]})
       this.setState({exercises: exercises})
+      this.filterExercisesByDate()
     })
     .catch(error => console.log(error))
   }

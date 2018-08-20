@@ -2,17 +2,22 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {Link} from "react-router-dom";
 import './css/Header.scss';
+import { Menu } from 'semantic-ui-react'
 
 function Header(props) {
   return (
-    <div class="ui top fixed menu">
-      <Link class="item" to="/">
-        Fitalyzer
-      </Link>
-      <Link class="item" to="/gym">
-        Gym
-      </Link>
-    </div>
+    <Menu className="top fixed">
+      <Menu.Item>
+        <Link to="/">
+          Fitalyzer
+        </Link>
+      </Menu.Item>
+      <Menu.Item>
+        <Link to="/gym">
+          Gym
+        </Link>
+      </Menu.Item>
+    </Menu>
   );
 }
 

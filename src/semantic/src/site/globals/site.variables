@@ -1,0 +1,8 @@
+/*******************************
+     User Global Variables
+*******************************/
+@fontName            : 'Roboto';
+@primaryColor        : #373142;
+@secondaryColor      : rgb(130, 216, 216);
+@primaryContrastText : @white;
+@white               : #fff;

@@ -1,0 +1,8 @@
+/*******************************
+    User Variable Overrides
+*******************************/
+@background: @primaryColor;
+@itemTextColor: @primaryContrastText;
+@hoverItemTextColor: @secondaryColor;
+@minHeight: 4em;
+@fontWeight: 500;
