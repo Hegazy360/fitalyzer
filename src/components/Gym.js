@@ -21,8 +21,8 @@ class Gym extends Component {
       editingExerciseId: null,
       notification: '',
       exerciseDates: [],
-      exerciseWeights: [],
-      exercisesDates: [],
+      exerciseWeights: null,
+      exercisesDates: null,
       exercisesByDate: [],
       activeWorkoutDate: null
     };
@@ -100,11 +100,11 @@ class Gym extends Component {
   render() {
 
     return (
-      <Grid container>
-        <Grid item xs={12}>
+      <Grid container spacing={32}>
+        <Grid item xs={12} md={6}>
           <WorkoutCalendar exercisesDates = {this.state.exercisesDates} handleDayClick = {this.handleDayClick}/>
         </Grid>
-        <Grid item xs={12}>
+        <Grid item xs={12} md={6}>
           {this.state.activeWorkoutDate && <ExercisesTable exercises = {this.state.exercisesByDate[this.state.activeWorkoutDate]} date = {this.state.activeWorkoutDate} fadeInAnimation = {this.state.fadeInAnimation} deleteExercise = {this.deleteExercise}/>}
         </Grid>
         <Grid item xs={12}>
@@ -130,7 +130,7 @@ class Gym extends Component {
           <ExercisesButtons exercisesIds = {Object.keys(this.filterExercisesBy(this.state.exercises,"exercise_id"))} setExerciseData = {this.setExerciseData}/>
         </Grid>
         <Grid item xs={12}>
-          <ExerciseChart exerciseDates = {this.state.exerciseDates} exerciseWeights = {this.state.exerciseWeights} />
+          {this.state.exerciseWeights && <ExerciseChart exerciseDates = {this.state.exerciseDates} exerciseWeights = {this.state.exerciseWeights} />}
         </Grid>
       </Grid>);
   }

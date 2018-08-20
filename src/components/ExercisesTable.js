@@ -16,7 +16,6 @@ const styles = {
   root: {
     width: '100%',
     margin: 'auto',
-    marginTop: 25,
     marginBottom: 25,
     overflowX: 'auto',
   },
