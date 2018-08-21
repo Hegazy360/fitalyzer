@@ -126,12 +126,12 @@ class Gym extends Component {
             {this.state.notification}
           </span>
         </Grid>
-        <Grid item xs={11}>
+        <Grid item xs={12} md={2}>
           <br />
           <br />
-          <ExercisesButtons exercisesIds = {Object.keys(this.filterExercisesBy(this.state.exercises,"exercise_id"))} setExerciseData = {this.setExerciseData}/>
+          {this.state.exercises.length > 0 && <ExercisesButtons exercisesIds = {Object.keys(this.filterExercisesBy(this.state.exercises,"exercise_id"))} setExerciseData = {this.setExerciseData}/>}
         </Grid>
-        <Grid item xs={12}>
+        <Grid item xs={12} md={10}>
           {this.state.exerciseWeights && <ExerciseChart exerciseDates = {this.state.exerciseDates} exerciseWeights = {this.state.exerciseWeights} />}
         </Grid>
       </Grid>);

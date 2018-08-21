@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import {Link} from "react-router-dom";
 import './css/Header.scss';
 import { Menu } from 'semantic-ui-react'
@@ -20,9 +19,5 @@ function Header(props) {
     </Menu>
   );
 }
-
-Header.propTypes = {
-  classes: PropTypes.object.isRequired,
-};
 
 export default Header;

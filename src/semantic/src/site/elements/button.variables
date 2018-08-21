@@ -1,3 +1,7 @@
 /*******************************
     User Variable Overrides
 *******************************/
+@basicGroupBorder      : none;
+@basicActiveTextColor  : @primaryColor;
+@basicTextColor        : @primaryColor;
+@basicActiveBackground : @secondaryColor;

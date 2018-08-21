@@ -30,21 +30,21 @@ class ExercisesTable extends React.Component {
                 </Table.Cell>
                 <Table.Cell>{exercise.sets.length}</Table.Cell>
                 <Table.Cell>
-                  {exercise.sets[0] && exercise.sets[0].reps + " ("}
+                  {exercise.sets[0] && exercise.sets[0].reps}
                   <b>
-                    {exercise.sets[0] && exercise.sets[0].weight + " KG)"}
+                    {exercise.sets[0] && " (" + exercise.sets[0].weight + " KG)"}
                   </b>
                 </Table.Cell>
                 <Table.Cell>
-                  {exercise.sets[1] && exercise.sets[1].reps + " ("}
+                  {exercise.sets[1] && exercise.sets[1].reps}
                   <b>
-                    {exercise.sets[1] && exercise.sets[1].weight + " KG)"}
+                    {exercise.sets[1] && " (" + exercise.sets[1].weight + " KG)"}
                   </b>
                 </Table.Cell>
                 <Table.Cell>
-                  {exercise.sets[2] && exercise.sets[2].reps + " ("}
+                  {exercise.sets[2] && exercise.sets[2].reps}
                   <b>
-                    {exercise.sets[2] && exercise.sets[2].weight  + " KG)"}
+                    {exercise.sets[2] && " (" + exercise.sets[2].weight  + " KG)"}
                   </b>
                 </Table.Cell>
                 <Table.Cell>

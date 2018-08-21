@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import axios from 'axios'
-import Button from '@material-ui/core/Button';
+import {Button} from 'semantic-ui-react'
 
 class ExerciseButton extends Component {
 
@@ -21,12 +21,13 @@ class ExerciseButton extends Component {
       this.setState({exercise: response.data})
     }).catch(error => console.log(error))
   }
+  setActive = () => {
+
+  }
   render() {
     return (
-      <Button onClick = {this.props.onClick}>
-        <span>
-          {this.state.exercise.name}
-        </span>
+      <Button onClick = {this.props.onClick} className={this.props.index === this.props.activeIndex? 'active' : ''} >
+        {this.state.exercise.name}
       </Button>
     )
   }
