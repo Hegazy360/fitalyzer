@@ -104,7 +104,7 @@ class Gym extends Component {
     return (
       <Grid container spacing={32}>
         <Grid item xs={12} md={6}>
-          <WorkoutCalendar exercisesDates = {this.state.exercisesDates} handleDayClick = {this.handleDayClick}/>
+          {this.state.exercisesDates && <WorkoutCalendar exercisesDates = {this.state.exercisesDates} handleDayClick = {this.handleDayClick}/>}
         </Grid>
         <Grid item xs={12} md={6}>
           {this.state.activeWorkoutDate && <ExercisesTable exercises = {this.state.exercisesByDate[this.state.activeWorkoutDate]} date = {this.state.activeWorkoutDate} fadeInAnimation = {this.state.fadeInAnimation} deleteExercise = {this.deleteExercise}/>}
