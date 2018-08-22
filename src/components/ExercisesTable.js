@@ -1,5 +1,6 @@
 import React from 'react';
 import './css/ExercisesTable.scss';
+import { TransitionGroup, CSSTransition } from "react-transition-group";
 import {Button, Table} from 'semantic-ui-react'
 
 
@@ -21,41 +22,47 @@ class ExercisesTable extends React.Component {
           </Table.Row>
         </Table.Header>
 
-        <Table.Body>
+        <TransitionGroup component={Table.Body} exit={false}>
           {this.props.exercises && this.props.exercises.map(exercise => {
             return (
-              <Table.Row key = {exercise.id}>
-                <Table.Cell>
-                  {exercise.name}
-                </Table.Cell>
-                <Table.Cell>{exercise.sets.length}</Table.Cell>
-                <Table.Cell>
-                  {exercise.sets[0] && exercise.sets[0].reps}
-                  <b>
-                    {exercise.sets[0] && " (" + exercise.sets[0].weight + " KG)"}
-                  </b>
-                </Table.Cell>
-                <Table.Cell>
-                  {exercise.sets[1] && exercise.sets[1].reps}
-                  <b>
-                    {exercise.sets[1] && " (" + exercise.sets[1].weight + " KG)"}
-                  </b>
-                </Table.Cell>
-                <Table.Cell>
-                  {exercise.sets[2] && exercise.sets[2].reps}
-                  <b>
-                    {exercise.sets[2] && " (" + exercise.sets[2].weight  + " KG)"}
-                  </b>
-                </Table.Cell>
-                <Table.Cell>
-                  <center>
-                    <Button basic primary icon="trash" onClick={() => { this.props.deleteExercise(exercise.id) }} />
-                  </center>
-                </Table.Cell>
-              </Table.Row>
+              <CSSTransition
+                key={exercise.id}
+                timeout={{ enter: 300 }}
+                classNames={'fade'}
+              >
+                <Table.Row>
+                  <Table.Cell>
+                    {exercise.name}
+                  </Table.Cell>
+                  <Table.Cell>{exercise.sets.length}</Table.Cell>
+                  <Table.Cell>
+                    {exercise.sets[0] && exercise.sets[0].weight + " KG"}
+                    <b>
+                      {exercise.sets[0] && " (Reps: " + exercise.sets[0].reps + ")"}
+                    </b>
+                  </Table.Cell>
+                  <Table.Cell>
+                    {exercise.sets[1] && exercise.sets[1].weight + " KG"}
+                    <b>
+                      {exercise.sets[1] && " (Reps: " + exercise.sets[1].reps + ")"}
+                    </b>
+                  </Table.Cell>
+                  <Table.Cell>
+                    {exercise.sets[2] && exercise.sets[2].weight + " KG"}
+                    <b>
+                      {exercise.sets[2] && " (Reps: " + exercise.sets[2].reps  + ")"}
+                    </b>
+                  </Table.Cell>
+                  <Table.Cell>
+                    <center>
+                      <Button basic primary icon="trash" onClick={() => { this.props.deleteExercise(exercise.id) }} />
+                    </center>
+                  </Table.Cell>
+                </Table.Row>
+              </CSSTransition>
             );
           })}
-        </Table.Body>
+        </TransitionGroup>
       </Table>
     );
   }

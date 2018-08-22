@@ -1,9 +1,19 @@
 .fade-enter {
   opacity: 0;
   transform: scaleY(0);
+  transform-origin: top center;
 }
 .fade-enter-active {
   opacity: 1;
   transform: scaleY(1);
-  transition: all 300ms ease;
+  transition: all 300ms ease-in-out;
+}
+.fade-exit {
+  opacity: 1;
+}
+.fade-exit.fade-exit-active {
+  opacity: 0;
+}
+.table tr.visible.transition {
+  display: table-row !important;
 }
