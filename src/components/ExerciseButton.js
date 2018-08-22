@@ -11,19 +11,12 @@ class ExerciseButton extends Component {
     }
   }
 
-  getExerciseInfo = (id) => {
-    axios.get('https://wger.de/api/v2/exercise/' + id).then(response => {
-      this.setState({exercise: response.data})
-    }).catch(error => console.log(error))
-  }
   componentDidMount() {
     axios.get('https://wger.de/api/v2/exercise/' + this.props.exerciseId).then(response => {
       this.setState({exercise: response.data})
     }).catch(error => console.log(error))
   }
-  setActive = () => {
 
-  }
   render() {
     return (
       <Button onClick = {this.props.onClick} className={this.props.index === this.props.activeIndex? 'active' : ''} >

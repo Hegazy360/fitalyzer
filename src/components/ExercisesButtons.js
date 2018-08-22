@@ -1,5 +1,4 @@
 import React, {Component} from 'react'
-import axios from 'axios'
 import ExerciseButton from './ExerciseButton'
 import Grid from '@material-ui/core/Grid';
 import {Button} from 'semantic-ui-react'
@@ -13,18 +12,10 @@ class ExercisesButtons extends Component {
     }
   }
 
-  getExerciseInfo = (id) => {
-    axios.get('https://wger.de/api/v2/exercise/' + id, {}, {
-      headers: {
-        'Authorization': "Token ab84da10dcddca08fb0a6c0a392b9a27ee7f53df"
-      }
-    }).then(response => {
-      this.exercise = response.data
-    }).catch(error => console.log(error))
-  }
   componentDidMount() {
     this.props.setExerciseData(this.props.exercisesIds[0]);
   }
+  
   onClick = (id, index) => {
     this.setState({active: index})
     this.props.setExerciseData(id)

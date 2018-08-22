@@ -12,6 +12,7 @@ import max from 'lodash/max'
 import moment from 'moment'
 import update from 'immutability-helper'
 import Grid from '@material-ui/core/Grid';
+import ExercisePersonalInfo from './ExercisePersonalInfo'
 
 class Gym extends Component {
   constructor(props) {
@@ -24,7 +25,8 @@ class Gym extends Component {
       exerciseWeights: null,
       exercisesDates: null,
       exercisesByDate: [],
-      activeWorkoutDate: null
+      activeWorkoutDate: null,
+      activeExerciseSet: null
     };
   }
   addNewExercise = (exercise) => {
@@ -82,6 +84,7 @@ class Gym extends Component {
   setExerciseData = (id) => {
     const exercisesSet = this.filterExercisesBy(this.state.exercises, "exercise_id");
     this.setState({
+      activeExerciseSet: exercisesSet[id],
       exerciseDates: exercisesSet[id].map(exercise => (moment(exercise.created_at).format("MMMM Do YYYY"))),
       exerciseWeights: exercisesSet[id].map(exercise => (max(exercise.sets.map(set => (set.weight)))))
     })
@@ -132,6 +135,7 @@ class Gym extends Component {
           {this.state.exercises.length > 0 && <ExercisesButtons exercisesIds = {Object.keys(this.filterExercisesBy(this.state.exercises,"exercise_id"))} setExerciseData = {this.setExerciseData}/>}
         </Grid>
         <Grid item xs={12} md={10}>
+          {this.state.activeExerciseSet && <ExercisePersonalInfo activeExerciseSet = {this.state.activeExerciseSet} /> }
           {this.state.exerciseWeights && <ExerciseChart exerciseDates = {this.state.exerciseDates} exerciseWeights = {this.state.exerciseWeights} />}
         </Grid>
       </Grid>);
