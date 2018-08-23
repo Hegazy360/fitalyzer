@@ -1,21 +1,23 @@
 .slide-down-enter {
   overflow: hidden;
   opacity: 0;
-  max-height: 0;
-  transform-origin: top;
+  transform: scaleY(0);
+  transform-origin: top center;
 }
 
 .slide-down-enter.slide-down-enter-active {
-  max-height: 1000px;
   opacity: 1;
-  transition: all 2s ease;
+  transform: scaleY(1);
+  transition: all 300ms ease;
 }
 
 .slide-down-exit {
   opacity: 1;
+  transform: scaleY(1);
 }
 
 .slide-down-exit.slide-down-exit-active {
   opacity: 0;
-  transition: all 300ms ease-in;
+  transform: scaleY(0);
+  transition: all 100ms ease-in;
 }

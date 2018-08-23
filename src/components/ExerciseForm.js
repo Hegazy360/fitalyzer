@@ -99,7 +99,7 @@ class ExerciseForm extends Component {
       <CSSTransition
         classNames="slide-down"
         in={this.state.mounted}
-        timeout={{ enter: 300, exit: 300 }}
+        timeout={{ enter: 300 }}
       >
         <form>
           <Grid container alignItems="flex-end" direction="row" justify="center" spacing={16}>

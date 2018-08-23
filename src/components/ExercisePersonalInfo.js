@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import maxBy from 'lodash/maxBy'
 import { Statistic } from 'semantic-ui-react'
-import './css/ExercisesTable.scss';
 
 class ExercisePersonalInfo extends Component {
   render() {

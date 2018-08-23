@@ -5,8 +5,7 @@ import ExerciseChart from './ExerciseChart'
 import ExercisesTable from './ExercisesTable';
 import WorkoutCalendar from './WorkoutCalendar';
 import ExercisesButtons from './ExercisesButtons';
-import Button from '@material-ui/core/Button';
-import AddIcon from '@material-ui/icons/Add';
+import {Button} from 'semantic-ui-react'
 import groupBy from 'lodash/groupBy'
 import max from 'lodash/max'
 import moment from 'moment'
@@ -112,26 +111,24 @@ class Gym extends Component {
         <Grid item xs={12} md={6}>
           {this.state.activeWorkoutDate && <ExercisesTable exercises = {this.state.exercisesByDate[this.state.activeWorkoutDate]} date = {this.state.activeWorkoutDate} fadeInAnimation = {this.state.fadeInAnimation} deleteExercise = {this.deleteExercise}/>}
         </Grid>
-        <Grid item xs={12}>
-          {!this.state.editingExerciseId &&
+        <br/>
+        {
+          !this.state.editingExerciseId &&
+          <Grid item xs={12}>
             <center>
-              <br/>
-              <Button variant="extendedFab" color= "primary" aria-label="Add" className="newExerciseButton" onClick={this.toggleForm}>
-                <AddIcon />
-                Add Exercise
-              </Button>
+              <Button primary size="big" className="newExerciseButton" onClick={this.toggleForm} icon="plus" content="Add Exercise"/>
             </center>
-           }
-        </Grid>
+          </Grid>
+        }
+        {
+          this.state.editingExerciseId &&
+          <Grid item xs={12}>
+            <ExerciseForm addNewExercise={this.addNewExercise} resetNotification={this.resetNotification}/>
+          </Grid>
+        }
         <Grid item xs={12}>
-          {this.state.editingExerciseId && <ExerciseForm addNewExercise={this.addNewExercise} resetNotification={this.resetNotification}/>}
-          <span className="notification">
-            {this.state.notification}
-          </span>
         </Grid>
         <Grid item xs={12} md={2}>
-          <br />
-          <br />
           {this.state.exercises.length > 0 && <ExercisesButtons exercisesIds = {Object.keys(this.filterExercisesBy(this.state.exercises,"exercise_id"))} setExerciseData = {this.setExerciseData}/>}
         </Grid>
         <Grid item xs={12} md={10}>
