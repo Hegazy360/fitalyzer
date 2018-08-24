@@ -30,7 +30,7 @@ class Gym extends Component {
   }
   addNewExercise = (exercise) => {
     console.log(exercise);
-    axios.post('http://localhost:3001/api/v1/gyms/1/exercises', {exercise: exercise}).then(response => {
+    axios.post('https://fitalyzer-api.herokuapp.com/api/v1/gyms/1/exercises', {exercise: exercise}).then(response => {
       const exercises = update(this.state.exercises, {
         $splice: [
           [this.state.exercises.length, this.state.exercises.length, response.data]
@@ -42,7 +42,7 @@ class Gym extends Component {
   }
   deleteExercise = (id) => {
     // TODO: immutate state
-    axios.delete(`http://localhost:3001/api/v1/exercises/${id}`)
+    axios.delete(`https://fitalyzer-api.herokuapp.com/api/v1/exercises/${id}`)
     .then(response => {
       const exerciseIndex = this.state.exercises.findIndex(x => x.id === id)
       const exercises = update(this.state.exercises, { $splice: [[exerciseIndex, 1]]})
@@ -96,7 +96,7 @@ class Gym extends Component {
   }
 
   componentDidMount() {
-    axios.get('http://localhost:3001/api/v1/gyms/1/exercises').then(response => {
+    axios.get('https://fitalyzer-api.herokuapp.com/api/v1/gyms/1/exercises').then(response => {
       this.setState({exercises: response.data})
       this.filterExercisesByDate()
     }).catch(error => console.log(error))
