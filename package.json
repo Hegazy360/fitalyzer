@@ -2,6 +2,10 @@
   "name": "fitalyzer",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": "8.11.4",
+    "npm": "6.4.0"
+  },
   "dependencies": {
     "@material-ui/core": "^1.4.1",
     "@material-ui/icons": "^2.0.0",
@@ -27,10 +31,11 @@
     "eslint-plugin-import": "2.8.0",
     "eslint-plugin-jsx-a11y": "5.1.1",
     "eslint-plugin-react": "7.4.0",
+    "express": "4.16.3",
     "extract-text-webpack-plugin": "3.0.2",
     "file-loader": "1.1.5",
     "fs-extra": "3.0.1",
-    "gulp": "^3.9.1",
+    "gulp": "^4.0.0",
     "html-webpack-plugin": "2.29.0",
     "immutability-helper": "^2.7.1",
     "jest": "20.0.4",

@@ -7,7 +7,7 @@ import AddIcon from '@material-ui/icons/Add';
 import Tooltip from '@material-ui/core/Tooltip';
 import Grid from '@material-ui/core/Grid';
 import update from 'immutability-helper'
-import './css/ExerciseForm.scss';
+import './css/ExerciseForm.css';
 import { CSSTransition } from "react-transition-group";
 
 class ExerciseForm extends Component {

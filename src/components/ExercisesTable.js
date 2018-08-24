@@ -1,5 +1,5 @@
 import React from 'react';
-import './css/ExercisesTable.scss';
+import './css/ExercisesTable.css';
 import { TransitionGroup, CSSTransition } from "react-transition-group";
 import {Button, Table} from 'semantic-ui-react'
 
