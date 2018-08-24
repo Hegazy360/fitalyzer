@@ -6,7 +6,7 @@ class ExercisePersonalInfo extends Component {
   render() {
     const exercisePR = maxBy([...new Set([].concat(...this.props.activeExerciseSet.map(exercise => exercise.sets)))],'weight')
     return (
-      <Statistic.Group widths='four'>
+      <Statistic.Group widths='four' size="small" >
         <Statistic>
           <Statistic.Value>{exercisePR.weight} KG</Statistic.Value>
           <Statistic.Label>Personal Record (Reps: {exercisePR.reps})</Statistic.Label>

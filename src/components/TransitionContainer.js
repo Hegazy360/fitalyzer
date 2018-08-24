@@ -5,7 +5,7 @@ import './css/Container.css';
 import Home from "./Home";
 import Gym from "./Gym";
 
-function Container({ location }) {
+function TransitionContainer({ location }) {
   return (
     <div>
       <TransitionGroup className="transition-group">
@@ -28,4 +28,4 @@ function Container({ location }) {
 
 
 
-export default withRouter(Container);
+export default withRouter(TransitionContainer);
