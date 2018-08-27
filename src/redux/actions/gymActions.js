@@ -17,3 +17,12 @@ export function addExercise(exercise) {
     })
   }
 }
+
+export function deleteExercise(exercise_id) {
+  return function(dispatch) {
+    dispatch({
+      type: "DELETE_EXERCISE",
+      payload: axios.delete(`https://fitalyzer-api.herokuapp.com/api/v1/exercises/${exercise_id}`, {exercise_id: exercise_id}),
+    })
+  }
+}
