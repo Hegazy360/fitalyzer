@@ -2,12 +2,6 @@ import React, {Component} from 'react'
 import ReactEcharts from 'echarts-for-react';
 
 class ExerciseChart extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      exercises: [],
-    };
-  }
 
   getOptions = () => {
     const options = {
