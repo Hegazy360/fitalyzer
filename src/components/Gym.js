@@ -28,6 +28,7 @@ class Gym extends Component {
       activeExerciseSet: null
     };
   }
+  //reduxed
   addNewExercise = (exercise) => {
     console.log(exercise);
     axios.post('https://fitalyzer-api.herokuapp.com/api/v1/gyms/1/exercises', {exercise: exercise}).then(response => {
@@ -40,6 +41,7 @@ class Gym extends Component {
       this.filterExercisesByDate()
     }).catch(error => console.log(error))
   }
+  //reduxed
   deleteExercise = (id) => {
     // TODO: immutate state
     axios.delete(`https://fitalyzer-api.herokuapp.com/api/v1/exercises/${id}`)
@@ -51,28 +53,14 @@ class Gym extends Component {
     })
     .catch(error => console.log(error))
   }
-  updateExercise = (exercise) => {
-    const exerciseIndex = this.state.exercises.findIndex(x => x.id === exercise.id)
-    const exercises = update(this.state.exercises, {
-      [exerciseIndex]: {
-        $set: exercise
-      }
-    })
-    this.setState({exercises: exercises, notification: 'All changes saved'})
-  }
-  resetNotification = () => {
-    this.setState({notification: ''})
-  }
-  enableEditing = (id) => {
-    this.setState({editingExerciseId: id},
-      () => { this.title.focus() })
-  }
+  //reduxed
   toggleForm = () => {
     this.setState({editingExerciseId: 1})
   }
   filterExercisesBy = (exercisesArray, value) => {
     return groupBy(exercisesArray, value)
   }
+  //reduxed baby
   filterExercisesByDate = () => {
     const results = groupBy(this.state.exercises, (result) => new Date(result.created_at).setHours(0,0,0,0))
     this.setState({
@@ -80,6 +68,7 @@ class Gym extends Component {
       exercisesByDate: results
     })
   }
+  //reduxed
   setExerciseData = (id) => {
     const exercisesSet = this.filterExercisesBy(this.state.exercises, "exercise_id");
     this.setState({
@@ -88,13 +77,13 @@ class Gym extends Component {
       exerciseWeights: exercisesSet[id].map(exercise => (max(exercise.sets.map(set => (set.weight)))))
     })
   }
-
+  //reduxed
   handleDayClick = (date) => {
     this.setState({
       activeWorkoutDate: date,
     })
   }
-
+  //reduxed
   componentDidMount() {
     axios.get('https://fitalyzer-api.herokuapp.com/api/v1/gyms/1/exercises').then(response => {
       this.setState({exercises: response.data})
@@ -123,7 +112,7 @@ class Gym extends Component {
         {
           this.state.editingExerciseId &&
           <Grid item xs={12}>
-            <ExerciseForm addNewExercise={this.addNewExercise} resetNotification={this.resetNotification}/>
+            <ExerciseForm addNewExercise={this.addNewExercise} />
           </Grid>
         }
         <Grid item xs={12}>

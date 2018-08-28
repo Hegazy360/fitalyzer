@@ -40,17 +40,14 @@ class ExerciseForm extends Component {
     }).catch(error => console.log(error))
   }
   handleChange = (selectedOption) => {
-    this.props.resetNotification()
     this.setState({selectedOption, exercise_id: selectedOption? selectedOption.value : '', name: selectedOption? selectedOption.label : ''});
   }
   handleInput = (e) => {
-    this.props.resetNotification()
     this.setState({
       [e.target.name]: e.target.value
     })
   }
   handleSets = (id, e) => {
-    this.props.resetNotification()
     console.log(e.target.name);
     if(e.target.name === "weight"){
       const setValue = {"weight": e.target.value || '0', "reps": this.state.sets[id]? this.state.sets[id].reps : '0'}

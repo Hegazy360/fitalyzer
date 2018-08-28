@@ -11,6 +11,7 @@ class ExerciseButton extends Component {
     }
   }
 
+  //reduxed.. yep
   componentDidMount() {
     axios.get('https://wger.de/api/v2/exercise/' + this.props.exerciseId).then(response => {
       this.setState({exercise: response.data})

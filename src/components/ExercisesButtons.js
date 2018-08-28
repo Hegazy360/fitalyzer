@@ -15,7 +15,8 @@ class ExercisesButtons extends Component {
   componentDidMount() {
     this.props.setExerciseData(this.props.exercisesIds[0]);
   }
-  
+
+  //reduxed in the face!
   onClick = (id, index) => {
     this.setState({active: index})
     this.props.setExerciseData(id)
