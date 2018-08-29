@@ -45,7 +45,7 @@ export default function reducer(state={
       }
       case "DELETE_EXERCISE_FULFILLED": {
         // TODO: find a better way to get exercise_id by returning a json from the API
-        return state.exercises.filter(exercise => exercise.id !== action.payload.config.exercise_id)
+        return {...state, exercises: state.exercises.filter(exercise => exercise.id !== action.payload.config.exercise_id)}
       }
       case "TOGGLE_FORM": {
         return {...state, editingExerciseId: action.payload}

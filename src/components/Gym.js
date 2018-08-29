@@ -20,7 +20,8 @@ const mapStateToProps = store => {
     exercisesDates: store.gym.exercisesDates,
     exercisesByDate: store.gym.exercisesByDate,
     activeWorkoutDate: store.gym.activeWorkoutDate,
-    activeExerciseSet: store.gym.activeExerciseSet
+    activeExerciseSet: store.gym.activeExerciseSet,
+    activeExerciseButton: store.gym.activeExerciseButton
   }
 }
 
@@ -29,7 +30,7 @@ class Gym extends Component {
     this.props.addExercise(exercise)
   }
   deleteExercise = (id) => {
-    this.props.deleteExercise();
+    this.props.deleteExercise(id);
   }
   toggleForm = () => {
     this.props.toggleForm()
@@ -65,7 +66,7 @@ class Gym extends Component {
           </Grid>
         }
         {
-          this.props.editingExerciseId &&
+          this.props.editingExerciseId === 1 &&
           <Grid item xs={12}>
             <ExerciseForm addNewExercise={this.addNewExercise} />
           </Grid>
@@ -73,7 +74,7 @@ class Gym extends Component {
         <Grid item xs={12}>
         </Grid>
         <Grid item xs={12} md={2}>
-          {this.props.exercises.length > 0 && <ExercisesButtons exercisesIds = {Object.keys(this.filterExercisesBy(this.props.exercises,"exercise_id"))} setExerciseData = {this.setExerciseData}/>}
+          {this.props.exercises.length > 0 && <ExercisesButtons changeActiveButton={this.props.changeActiveButton}  activeExerciseButton = {this.props.activeExerciseButton} exercisesIds = {Object.keys(this.filterExercisesBy(this.props.exercises,"exercise_id"))} setExerciseData = {this.setExerciseData}/>}
         </Grid>
         <Grid item xs={12} md={10}>
           {this.props.activeExerciseSet && <ExercisePersonalInfo activeExerciseSet = {this.props.activeExerciseSet} /> }

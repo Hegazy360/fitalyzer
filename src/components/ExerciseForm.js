@@ -1,86 +1,62 @@
 import React, {Component} from 'react'
-import axios from 'axios'
 import TextField from '@material-ui/core/TextField';
 import Select from 'react-select';
 import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
 import Tooltip from '@material-ui/core/Tooltip';
 import Grid from '@material-ui/core/Grid';
-import update from 'immutability-helper'
 import './css/ExerciseForm.css';
 import { CSSTransition } from "react-transition-group";
+import { connect } from 'react-redux'
+import * as wger from '../redux/actions/wgerActions'
+
+const mapStateToProps = store => {
+  return {
+    exercise_id: store.wger.exercise_id,
+    name: store.wger.name,
+    setsDone: store.wger.setsDone,
+    sets: store.wger.sets,
+    selectedOption: store.wger.selectedOption,
+    isSelectLoading: store.wger.isSelectLoading,
+    options: store.wger.options,
+    mounted: store.wger.mounted
+  }
+}
 
 class ExerciseForm extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      exercise_id: null,
-      name: '',
-      setsDone: 0,
-      sets: [],
-      selectedOption: '',
-      isSelectLoading: true,
-      options: [],
-      mounted: false
-    }
-  }
+
   componentDidMount() {
-    this.setState({
-      mounted: true
-    })
-    axios.get('https://wger.de/api/v2/exercise/?format=json&limit=350&language=2&status=2', {}, {
-      headers: {
-        'Authorization': "Token ab84da10dcddca08fb0a6c0a392b9a27ee7f53df"
-      }
-    }).then(response => {
-      this.setState({
-        options: response.data.results.map(result => ({label: result.name, value: result.id})),
-        isSelectLoading: false,
-      });
-    }).catch(error => console.log(error))
+    this.props.setMounted(true)
+    this.props.fetchAllExercises()
   }
   handleChange = (selectedOption) => {
-    this.setState({selectedOption, exercise_id: selectedOption? selectedOption.value : '', name: selectedOption? selectedOption.label : ''});
+    this.props.handleChange(selectedOption)
   }
   handleInput = (e) => {
-    this.setState({
-      [e.target.name]: e.target.value
-    })
+    this.props.handleInput(e.target.value)
   }
   handleSets = (id, e) => {
-    console.log(e.target.name);
     if(e.target.name === "weight"){
-      const setValue = {"weight": e.target.value || '0', "reps": this.state.sets[id]? this.state.sets[id].reps : '0'}
-      const sets = update(this.state.sets, {
-        [id]: {
-          $set: setValue
-        }
-      })
-      this.setState({sets: sets}, () => console.log(this.state.sets))
+      const setValue = {"weight": e.target.value || '0', "reps": this.props.sets[id]? this.props.sets[id].reps : '0'}
+      this.props.handleSets(id, setValue)
     }
     else if (e.target.name === "reps") {
-      const setValue = {"weight": this.state.sets[id]? this.state.sets[id].weight : '0', "reps": e.target.value || '0'}
-
-      const sets = update(this.state.sets, {
-        [id]: {
-          $set: setValue
-        }
-      })
-      this.setState({sets: sets}, () => console.log(this.state.sets))
+      const setValue = {"weight": this.props.sets[id]? this.props.sets[id].weight : '0', "reps": e.target.value || '0'}
+      this.props.handleSets(id, setValue)
     }
   }
   createExercise = () => {
-    this.setState({mounted: false})
+    this.props.setMounted(false)
     const exercise = {
-      exercise_id: this.state.exercise_id,
-      name: this.state.name,
-      sets: this.state.sets
+      exercise_id: this.props.exercise_id,
+      name: this.props.name,
+      sets: this.props.sets
     }
     this.props.addNewExercise(exercise)
   }
   renderSetsForms = () => {
     const movieItems = [];
-    for (var i=0; i < this.state.setsDone; i++) {
+    for (var i=0; i < this.props.setsDone; i++) {
         movieItems.push(
           <Grid key = {i} container alignItems="center" direction="row" justify="center" spacing={16}>
             <TextField id="weight" className={this.props.textField} onChange={this.handleSets.bind(this, i)} margin="normal" label='Set weight' name="weight"/>
@@ -95,13 +71,13 @@ class ExerciseForm extends Component {
     return (<div className="tile">
       <CSSTransition
         classNames="slide-down"
-        in={this.state.mounted}
+        in={this.props.mounted}
         timeout={{ enter: 300 }}
       >
         <form>
           <Grid container alignItems="flex-end" direction="row" justify="center" spacing={16}>
             <Grid item xs={3}>
-              <Select value={this.state.selectedOption} onChange={this.handleChange} options={this.state.options} name="name" isClearable maxMenuHeight="150" menuPlacement="bottom" isLoading={this.state.isSelectLoading}/>
+              <Select value={this.props.selectedOption} onChange={this.handleChange} options={this.props.options} name="name" isClearable maxMenuHeight="150" menuPlacement="bottom" isLoading={this.props.isSelectLoading}/>
             </Grid>
             <Grid item>
               <TextField id="sets_number" className={this.props.textField} onChange={this.handleInput} margin="normal" label='Sets done' name="setsDone"/>
@@ -125,4 +101,4 @@ class ExerciseForm extends Component {
     </div>);
   }
 }
-export default ExerciseForm
+export default connect(mapStateToProps, wger)(ExerciseForm)

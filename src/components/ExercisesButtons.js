@@ -5,20 +5,12 @@ import {Button} from 'semantic-ui-react'
 
 class ExercisesButtons extends Component {
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      active: 0
-    }
-  }
-
   componentDidMount() {
     this.props.setExerciseData(this.props.exercisesIds[0]);
   }
 
-  //reduxed in the face!
   onClick = (id, index) => {
-    this.setState({active: index})
+    this.props.changeActiveButton(index)
     this.props.setExerciseData(id)
   }
   render() {
@@ -28,7 +20,7 @@ class ExercisesButtons extends Component {
           <Button.Group widths='4' vertical basic>
             {this.props.exercisesIds.map((key, index) => {
               return (
-                <ExerciseButton key = {key} exerciseId = {key} index={index} activeIndex={this.state.active} onClick={this.onClick.bind(this, key, index)} />
+                <ExerciseButton key = {key} exerciseId = {key} index={index} activeIndex={this.props.activeExerciseButton} onClick={this.onClick.bind(this, key, index)} />
               );
             })}
           </Button.Group>
