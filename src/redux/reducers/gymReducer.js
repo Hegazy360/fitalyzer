@@ -1,3 +1,5 @@
+import groupBy from 'lodash/groupBy'
+
 export default function reducer(state={
     exercises: [],
     editingExerciseId: null,
@@ -39,7 +41,6 @@ export default function reducer(state={
       }
       //deleting exercise
       case "DELETE_EXERCISE_REJECTED": {
-        console.log("HEEEEEEEEEEY "+action.payload);
         return {...state, error: action.payload.message}
       }
       case "DELETE_EXERCISE_FULFILLED": {
@@ -50,13 +51,17 @@ export default function reducer(state={
         return {...state, editingExerciseId: action.payload}
       }
       case "FILTER_EXERCISES_BY_DATE": {
-        return {...state, exercisesDates: action.payload.exercisesDates, exercisesByDate: action.payload.exercisesByDate}
+        const results = groupBy(state.exercises, (result) => new Date(result.created_at).setHours(0,0,0,0))
+        return {...state, exercisesDates: Object.keys(results), exercisesByDate: results, editingExerciseId: 0}
       }
       case "SET_EXERCISES_DATA": {
         return {...state, activeExerciseSet: action.payload.activeExerciseSet, exerciseDates: action.payload.exerciseDates, exerciseWeights: action.payload.exerciseWeights}
       }
       case "CHANGE_ACTIVE_BUTTON": {
         return {...state, activeExerciseButton: action.payload}
+      }
+      case "SET_ACTIVE_WORKOUT_DATE": {
+        return {...state, activeWorkoutDate: action.payload}
       }
       default: {
         return state

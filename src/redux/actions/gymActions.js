@@ -5,18 +5,24 @@ import moment from 'moment'
 
 export function fetchExercises() {
   return function(dispatch) {
-    dispatch({
+    const response = dispatch({
       type: "FETCH_EXERCISES",
       payload: axios.get('https://fitalyzer-api.herokuapp.com/api/v1/gyms/1/exercises')
+    })
+    response.then((results) => {
+      dispatch(filterExercisesByDate())
     })
   }
 }
 
 export function addExercise(exercise) {
   return function(dispatch) {
-    dispatch({
+    const response = dispatch({
       type: "ADD_EXERCISE",
       payload: axios.post('https://fitalyzer-api.herokuapp.com/api/v1/gyms/1/exercises', {exercise: exercise})
+    })
+    response.then((results) => {
+      dispatch(filterExercisesByDate())
     })
   }
 }
@@ -39,15 +45,10 @@ export function toggleForm() {
   }
 }
 
-export function filterExercisesByDate(exercises) {
-  const results = groupBy(exercises, (result) => new Date(result.created_at).setHours(0,0,0,0))
+export function filterExercisesByDate() {
   return function(dispatch) {
     dispatch({
       type: "FILTER_EXERCISES_BY_DATE",
-      payload: {
-        exercisesDates: Object.keys(results),
-        exercisesByDate: results
-      },
     })
   }
 }
@@ -67,12 +68,11 @@ export function setExerciseData(exercises, id) {
 }
 
 export function setActiveWorkoutDate(date) {
+  console.log(date);
   return function(dispatch) {
     dispatch({
       type: "SET_ACTIVE_WORKOUT_DATE",
-      payload: {
-        activeWorkoutDate: date,
-      },
+      payload: date,
     })
   }
 }
@@ -81,9 +81,7 @@ export function changeActiveButton(button_index) {
   return function(dispatch) {
     dispatch({
       type: "CHANGE_ACTIVE_BUTTON",
-      payload: {
-        activeWorkoutDate: button_index,
-      },
+      payload: button_index,
     })
   }
 }
