@@ -74,7 +74,7 @@ class Gym extends Component {
         <Grid item xs={12}>
         </Grid>
         <Grid item xs={12} md={2}>
-          {this.props.exercises.length > 0 && <ExercisesButtons changeActiveButton={this.props.changeActiveButton}  activeExerciseButton = {this.props.activeExerciseButton} exercisesIds = {Object.keys(this.filterExercisesBy(this.props.exercises,"exercise_id"))} setExerciseData = {this.setExerciseData}/>}
+          {this.props.exercises.length > 0 && <ExercisesButtons changeActiveButton={this.props.changeActiveButton}  activeExerciseButton={this.props.activeExerciseButton} exercisesById={this.filterExercisesBy(this.props.exercises,"exercise_id")} setExerciseData = {this.setExerciseData}/>}
         </Grid>
         <Grid item xs={12} md={10}>
           {this.props.activeExerciseSet && <ExercisePersonalInfo activeExerciseSet = {this.props.activeExerciseSet} /> }

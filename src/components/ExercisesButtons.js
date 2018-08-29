@@ -6,7 +6,7 @@ import {Button} from 'semantic-ui-react'
 class ExercisesButtons extends Component {
 
   componentDidMount() {
-    this.props.setExerciseData(this.props.exercisesIds[0]);
+    this.props.setExerciseData(Object.keys(this.props.exercisesById)[0]);
   }
 
   onClick = (id, index) => {
@@ -18,9 +18,10 @@ class ExercisesButtons extends Component {
       <div>
         <Grid container alignItems="flex-start" direction="column" justify="center" spacing={16} className={this.props.demo}>
           <Button.Group widths='4' vertical basic>
-            {this.props.exercisesIds.map((key, index) => {
+            {Object.keys(this.props.exercisesById).map((key, index) => {
               return (
-                <ExerciseButton key = {key} exerciseId = {key} index={index} activeIndex={this.props.activeExerciseButton} onClick={this.onClick.bind(this, key, index)} />
+                <ExerciseButton key = {key} exercise = {this.props.exercisesById[key][0]} index={index} activeIndex={this.props.activeExerciseButton} onClick={this.onClick.bind(this, key, index)} />
+
               );
             })}
           </Button.Group>
