@@ -83,4 +83,5 @@ class Gym extends Component {
       </Grid>);
   }
 }
+
 export default connect(mapStateToProps, gym)(Gym)

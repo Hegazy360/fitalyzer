@@ -10,6 +10,9 @@ export default function reducer(state={
       case "GET_CURRENT_USER_FULFILLED": {
         return {...state, current_user: action.payload.data}
       }
+      case "DISCONNECT_USER": {
+        return {...state, current_user: null, jwt: null}
+      }
       default: {
         return state
       }
