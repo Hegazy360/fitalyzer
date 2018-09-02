@@ -5,12 +5,14 @@ import { Grid } from 'semantic-ui-react'
 import './App.css';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux'
-import * as user from './redux/actions/userActions'
+import * as auth from './redux/actions/authActions'
 
 const mapStateToProps = store => {
   return {
-    current_user: store.user.current_user,
-    jwt: store.user.jwt,
+    isAuthenticated: store.auth.isAuthenticated,
+    isFetching: store.auth.isFetching,
+    profile: store.auth.profile,
+    error: store.auth.error
   }
 }
 
@@ -20,7 +22,7 @@ class App extends Component {
       <Grid container>
         <Grid.Column>
           <div className="App">
-            <Header authenticateUser={this.props.authenticateUser} disconnectUser={this.props.disconnectUser} current_user={this.props.current_user} />
+            <Header loginRequest = {auth.loginRequest}/>
             <TransitionContainer />
           </div>
         </Grid.Column>
@@ -30,5 +32,5 @@ class App extends Component {
 }
 
 export default withRouter(
-    connect(mapStateToProps, user)(App)
+    connect(mapStateToProps, auth)(App)
 );

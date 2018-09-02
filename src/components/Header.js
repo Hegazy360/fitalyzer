@@ -1,10 +1,15 @@
 import React, { Component } from 'react';
 import {Link} from "react-router-dom";
 import './css/Header.css';
-import SignInForm from './SignInForm';
 import { Menu, Button } from 'semantic-ui-react'
+import * as AuthService from '../utils/AuthService';
 
 class Header extends Component {
+
+  handleLoginClick = () => {
+    AuthService.login();
+    this.props.loginRequest();
+  };
 
   render() {
     return (
@@ -22,14 +27,14 @@ class Header extends Component {
         <Menu.Menu position='right'>
           {!this.props.current_user &&
             <Menu.Item>
-              <SignInForm onSubmit={this.props.authenticateUser}/>
+              <Button primary onClick={AuthService.login.bind(this)}>Sign In</Button>
               <Button primary>Sign Up</Button>
             </Menu.Item>
           }
           {this.props.current_user &&
             <Menu.Item>
               {this.props.current_user.name}
-              <Button primary onClick={this.props.disconnectUser}>Disconnect</Button>
+              <Button primary>Disconnect</Button>
             </Menu.Item>
           }
         </Menu.Menu>
